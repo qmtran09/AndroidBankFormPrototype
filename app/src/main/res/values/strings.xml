@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Bank Form Prototype</string>
+    <string-array name="idChoice">
+        <item>CMND</item>
+        <item>CCND</item>
+        <item>Hộ Chiếu</item>
+    </string-array>
 </resources>
