@@ -1,26 +1,27 @@
 package BankFormProtoype.version0;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
+
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 //import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.service.autofill.Validator;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 
 
 import java.util.Calendar;
@@ -41,7 +42,14 @@ public class MainActivity extends AppCompatActivity {
     private TextView mSelectId;
     private TextView mTypeIDlabel;
     private EditText mTypeID;
-
+    private TextView mSelectIdA;
+    private TextView mTypeIDlabelA;
+    private EditText mTypeIDA;
+    private ImageButton vcbI;
+    private ImageView vcbI2;
+    private ImageButton bvbI;
+    private ImageView bvbI2;
+    private boolean accountFlag;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
@@ -50,14 +58,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Spinner spinner = (Spinner) findViewById(R.id.chooseID);
+        Spinner chooseID = (Spinner) findViewById(R.id.chooseID);
+        Spinner chooseIDA = (Spinner) findViewById(R.id.chooseIDA);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.idChoice, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        chooseID.setAdapter(adapter);
+        chooseIDA.setAdapter(adapter);
 
         mDisplayDate = (TextView) findViewById(R.id.expiryDate);
 
@@ -70,6 +80,14 @@ public class MainActivity extends AppCompatActivity {
         mSelectId = (TextView) findViewById(R.id.selectIDlabel);
         mTypeIDlabel = (TextView) findViewById(R.id.typeIDlabel);
         mTypeID = (EditText) findViewById(R.id.TypeID);
+        mSelectIdA = (TextView) findViewById(R.id.selectIDlabelA);
+        mTypeIDlabelA = (TextView) findViewById(R.id.typeIDlabelA);
+        mTypeIDA = (EditText) findViewById(R.id.AtypeID);
+        vcbI = (ImageButton) findViewById(R.id.vcb);
+        bvbI = (ImageButton) findViewById(R.id.bvb);
+
+        vcbI2 = (ImageView) findViewById(R.id.vcb2);
+        bvbI2 = (ImageView) findViewById(R.id.bvb2);
 
         mNameLabel.setVisibility(TextView.INVISIBLE);
         mName.setVisibility(EditText.INVISIBLE);
@@ -78,14 +96,23 @@ public class MainActivity extends AppCompatActivity {
         mCVVlabel.setVisibility(TextView.INVISIBLE);
         mCVV.setVisibility(EditText.INVISIBLE);
         mSelectId.setVisibility(TextView.INVISIBLE);
-        spinner.setVisibility(Spinner.INVISIBLE);
+        mSelectIdA.setVisibility(TextView.INVISIBLE);
+        chooseID.setVisibility(Spinner.INVISIBLE);
+        chooseIDA.setVisibility(Spinner.INVISIBLE);
         mTypeIDlabel.setVisibility(TextView.INVISIBLE);
         mTypeID.setVisibility(EditText.INVISIBLE);
+        mTypeIDlabelA.setVisibility(TextView.INVISIBLE);
+        mTypeIDA.setVisibility(EditText.INVISIBLE);
+        vcbI.setVisibility(ImageButton.INVISIBLE);
+        bvbI.setVisibility(ImageButton.INVISIBLE);
+        vcbI2.setVisibility(ImageView.INVISIBLE);
+        bvbI2.setVisibility(ImageView.INVISIBLE);
 
-        //make name all caps
-
+        //make name all caps only accept alphabet
         mName.setFilters(new InputFilter[]{getEditTextFilter(),new InputFilter.AllCaps()});
-       // mName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+
+
         mDisplayDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,23 +142,47 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        mCardNum.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//        mCardNum.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                if (s.toString().trim().length() > 0) {
+//                    mNameLabel.setVisibility(TextView.VISIBLE);
+//                    mName.setVisibility(EditText.VISIBLE);
+//                }
+//            }
+//        });
 
+        vcbI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mNameLabel.setVisibility(TextView.VISIBLE);
+                mName.setVisibility(EditText.VISIBLE);
+                bvbI.setVisibility(ImageButton.INVISIBLE);
+                vcbI.setVisibility(ImageButton.INVISIBLE);
+                vcbI2.setVisibility(ImageButton.VISIBLE);
+                mNameLabel.setText("Điền Tên Chủ Tài Khoản:");
             }
+        });
 
+        bvbI.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.toString().trim().length() > 0) {
-                    mNameLabel.setVisibility(TextView.VISIBLE);
-                    mName.setVisibility(EditText.VISIBLE);
-                }
+            public void onClick(View v) {
+                mNameLabel.setVisibility(TextView.VISIBLE);
+                mName.setVisibility(EditText.VISIBLE);
+                bvbI.setVisibility(ImageButton.INVISIBLE);
+                vcbI.setVisibility(ImageButton.INVISIBLE);
+                bvbI2.setVisibility(ImageButton.VISIBLE);
+                mNameLabel.setText("Điền Tên Chủ Tài Khoảng:");
             }
         });
 
@@ -148,11 +199,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().trim().length() > 0) {
-                    mExpiryLabel.setVisibility(TextView.VISIBLE);
-                    mDisplayDate.setVisibility(EditText.VISIBLE);
-                    mCVVlabel.setVisibility(TextView.VISIBLE);
-                    mCVV.setVisibility(EditText.VISIBLE);
+                if (s.toString().trim().length() > 0 && accountFlag) {
+
+                    mSelectIdA.setVisibility(TextView.VISIBLE);
+                    chooseIDA.setVisibility(Spinner.VISIBLE);
+                    mTypeIDlabelA.setVisibility(TextView.VISIBLE);
+                    mTypeIDA.setVisibility(EditText.VISIBLE);
+                    //mExpiryLabel.setVisibility(TextView.VISIBLE);
+                    //mDisplayDate.setVisibility(EditText.VISIBLE);
+                    //mCVVlabel.setVisibility(TextView.VISIBLE);
+                    //mCVV.setVisibility(EditText.VISIBLE);
                 }
 
             }
@@ -173,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if (s.toString().trim().length() > 0) {
                     mSelectId.setVisibility(TextView.VISIBLE);
-                    spinner.setVisibility(EditText.VISIBLE);
+                    chooseID.setVisibility(EditText.VISIBLE);
                     mTypeIDlabel.setVisibility(TextView.VISIBLE);
                     mTypeID.setVisibility(EditText.VISIBLE);
                 }
@@ -188,6 +244,31 @@ public class MainActivity extends AppCompatActivity {
                     textView.setError("Name must contain a space");
                 }
 
+            }
+        });
+
+        mCardNum.addTextChangedListener(new TextValidator(mCardNum) {
+            @Override
+            public void validate(TextView textView, String text) {
+                if(text.length()==13){
+                    vcbI.setVisibility(ImageButton.VISIBLE);
+                    bvbI.setVisibility(ImageButton.VISIBLE);
+                    accountFlag = true;
+                }else{
+                    vcbI.setVisibility(ImageButton.INVISIBLE);
+                    bvbI.setVisibility(ImageButton.INVISIBLE);
+                    vcbI2.setVisibility(ImageButton.INVISIBLE);
+                    bvbI2.setVisibility(ImageButton.INVISIBLE);
+                    mTypeIDlabelA.setVisibility(TextView.INVISIBLE);
+                    mTypeIDA.setVisibility(EditText.INVISIBLE);
+                    chooseIDA.setVisibility(Spinner.INVISIBLE);
+                    mSelectIdA.setVisibility(TextView.INVISIBLE);
+                    mNameLabel.setVisibility(TextView.INVISIBLE);
+                    mName.setVisibility(EditText.INVISIBLE);
+
+                    accountFlag = false;
+
+                }
             }
         });
 
