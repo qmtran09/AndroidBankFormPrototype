@@ -250,7 +250,9 @@ public class MainActivity extends AppCompatActivity {
         mCardNum.addTextChangedListener(new TextValidator(mCardNum) {
             @Override
             public void validate(TextView textView, String text) {
-                if(text.length()==13){
+              if(text.startsWith("514003") ||text.startsWith("438103")||text.startsWith("547886")||text.startsWith("546284")||text.startsWith("546284")) {
+
+                }else if(text.length()==13){
                     vcbI.setVisibility(ImageButton.VISIBLE);
                     bvbI.setVisibility(ImageButton.VISIBLE);
                     accountFlag = true;
