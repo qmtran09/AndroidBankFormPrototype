@@ -262,5 +262,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/bvb2" />
 
+    <ImageView
+        android:id="@+id/visa"
+        android:layout_width="72dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="252dp"
+        android:layout_marginLeft="252dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="@+id/cardNum"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/visa" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

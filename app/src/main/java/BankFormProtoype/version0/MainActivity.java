@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton bvbI;
     private ImageView bvbI2;
     private boolean accountFlag;
+    private boolean ccIFlag;
+    private ImageView visaI;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
         vcbI2 = (ImageView) findViewById(R.id.vcb2);
         bvbI2 = (ImageView) findViewById(R.id.bvb2);
+        visaI = (ImageView) findViewById(R.id.visa);
 
         mNameLabel.setVisibility(TextView.INVISIBLE);
         mName.setVisibility(EditText.INVISIBLE);
@@ -107,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         bvbI.setVisibility(ImageButton.INVISIBLE);
         vcbI2.setVisibility(ImageView.INVISIBLE);
         bvbI2.setVisibility(ImageView.INVISIBLE);
-
+        visaI.setVisibility(ImageView.INVISIBLE);
         //make name all caps only accept alphabet
         mName.setFilters(new InputFilter[]{getEditTextFilter(),new InputFilter.AllCaps()});
 
@@ -205,10 +208,14 @@ public class MainActivity extends AppCompatActivity {
                     chooseIDA.setVisibility(Spinner.VISIBLE);
                     mTypeIDlabelA.setVisibility(TextView.VISIBLE);
                     mTypeIDA.setVisibility(EditText.VISIBLE);
-                    //mExpiryLabel.setVisibility(TextView.VISIBLE);
-                    //mDisplayDate.setVisibility(EditText.VISIBLE);
-                    //mCVVlabel.setVisibility(TextView.VISIBLE);
-                    //mCVV.setVisibility(EditText.VISIBLE);
+
+                }
+                else if(s.toString().trim().length() > 0 && ccIFlag){
+                    mExpiryLabel.setVisibility(TextView.VISIBLE);
+                    mDisplayDate.setVisibility(EditText.VISIBLE);
+                    mCVVlabel.setVisibility(TextView.VISIBLE);
+                    mCVV.setVisibility(EditText.VISIBLE);
+
                 }
 
             }
@@ -228,10 +235,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().trim().length() > 0) {
-                    mSelectId.setVisibility(TextView.VISIBLE);
-                    chooseID.setVisibility(EditText.VISIBLE);
-                    mTypeIDlabel.setVisibility(TextView.VISIBLE);
-                    mTypeID.setVisibility(EditText.VISIBLE);
+                    //mSelectId.setVisibility(TextView.VISIBLE);
+                    //chooseID.setVisibility(EditText.VISIBLE);
+                    //mTypeIDlabel.setVisibility(TextView.VISIBLE);
+                    //mTypeID.setVisibility(EditText.VISIBLE);
                 }
             }
         });
@@ -247,10 +254,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mCVV.addTextChangedListener(new TextValidator(mCVV) {
+            @Override
+            public void validate(TextView textView, String text) {
+                if(text.length()<3){
+                    textView.setError("CVV có 3 số");
+                }
+            }
+        });
+
         mCardNum.addTextChangedListener(new TextValidator(mCardNum) {
             @Override
             public void validate(TextView textView, String text) {
-              if(text.startsWith("514003") ||text.startsWith("438103")||text.startsWith("547886")||text.startsWith("546284")||text.startsWith("546284")) {
+                //International credit card VCB
+              if(text.startsWith("514003") ||text.startsWith("438103")||text.startsWith("547886")||text.startsWith("546285")||text.startsWith("546284")||text.startsWith("477389")||text.startsWith("469174")||text.startsWith("461136")||text.startsWith("412975")||text.startsWith("4212976")||text.startsWith("356771")||text.startsWith("356770")||text.startsWith("356435")) {
+
+                  mNameLabel.setVisibility(TextView.VISIBLE);
+                  mName.setVisibility(EditText.VISIBLE);
+                  visaI.setVisibility(TextView.VISIBLE);
+                  ccIFlag = true;
+
+
+                  mCardNum.addTextChangedListener(new TextValidator(mCardNum) {
+                      @Override
+                      public void validate(TextView textView, String text) {
+                          if(text.length() != 14 && ccIFlag){
+                              mCardNum.setError("Thẻ VISA cần 14 số");
+                          }
+                      }
+                  });
+
 
                 }else if(text.length()==13){
                     vcbI.setVisibility(ImageButton.VISIBLE);
@@ -267,8 +300,17 @@ public class MainActivity extends AppCompatActivity {
                     mSelectIdA.setVisibility(TextView.INVISIBLE);
                     mNameLabel.setVisibility(TextView.INVISIBLE);
                     mName.setVisibility(EditText.INVISIBLE);
-
+                    mExpiryLabel.setVisibility(TextView.INVISIBLE);
+                    mDisplayDate.setVisibility(EditText.INVISIBLE);
+                    mCVVlabel.setVisibility(TextView.INVISIBLE);
+                    mCVV.setVisibility(EditText.INVISIBLE);
+                    mSelectId.setVisibility(TextView.INVISIBLE);
+                    chooseID.setVisibility(EditText.INVISIBLE);
+                    mTypeIDlabel.setVisibility(TextView.INVISIBLE);
+                    mTypeID.setVisibility(EditText.INVISIBLE);
+                    visaI.setVisibility(ImageView.INVISIBLE);
                     accountFlag = false;
+                    ccIFlag = false;
 
                 }
             }
