@@ -3,6 +3,7 @@ package BankFormProtoype.version0;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 //import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean accountFlag;
     private boolean ccIFlag;
     private ImageView visaI;
-
+    private Button submit;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     @Override
@@ -87,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         mTypeIDA = (EditText) findViewById(R.id.AtypeID);
         vcbI = (ImageButton) findViewById(R.id.vcb);
         bvbI = (ImageButton) findViewById(R.id.bvb);
+        submit = (Button) findViewById(R.id.submit);
 
         vcbI2 = (ImageView) findViewById(R.id.vcb2);
         bvbI2 = (ImageView) findViewById(R.id.bvb2);
@@ -111,10 +114,36 @@ public class MainActivity extends AppCompatActivity {
         vcbI2.setVisibility(ImageView.INVISIBLE);
         bvbI2.setVisibility(ImageView.INVISIBLE);
         visaI.setVisibility(ImageView.INVISIBLE);
+        submit.setVisibility(Button.INVISIBLE);
         //make name all caps only accept alphabet
         mName.setFilters(new InputFilter[]{getEditTextFilter(),new InputFilter.AllCaps()});
 
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSuccess();
+            }
+        });
 
+        mTypeIDA.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().trim().length() > 0) {
+                    submit.setVisibility(Button.VISIBLE);
+                }
+
+            }
+        });
 
         mDisplayDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,6 +264,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().trim().length() > 0) {
+                    submit.setVisibility(Button.VISIBLE);
                     //mSelectId.setVisibility(TextView.VISIBLE);
                     //chooseID.setVisibility(EditText.VISIBLE);
                     //mTypeIDlabel.setVisibility(TextView.VISIBLE);
@@ -309,6 +339,7 @@ public class MainActivity extends AppCompatActivity {
                     mTypeIDlabel.setVisibility(TextView.INVISIBLE);
                     mTypeID.setVisibility(EditText.INVISIBLE);
                     visaI.setVisibility(ImageView.INVISIBLE);
+                    submit.setVisibility(Button.INVISIBLE);
                     accountFlag = false;
                     ccIFlag = false;
 
@@ -351,5 +382,10 @@ public class MainActivity extends AppCompatActivity {
                 return ms.matches();
             }
         };
+    }
+
+    public void openSuccess() {
+        Intent intent = new Intent(this,success.class);
+        startActivity(intent);
     }
 }
