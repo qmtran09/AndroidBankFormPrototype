@@ -185,30 +185,46 @@
         app:layout_constraintStart_toEndOf="@+id/expiryDate"
         app:layout_constraintTop_toBottomOf="@+id/cvvlabel" />
 
-    <Spinner
-        android:id="@+id/chooseID"
+    <RelativeLayout
+        android:id="@+id/chooseIDb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="8dp"
+        android:background="#FFFFFF"
+        android:padding="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectIDlabel"></Spinner>
+        app:layout_constraintTop_toBottomOf="@+id/selectIDlabel">
 
-    <Spinner
+        <Spinner
+            android:id="@+id/chooseID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></Spinner>
 
-        android:id="@+id/chooseIDA"
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/chooseIDAb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
+        android:background="#FFFFFF"
+        android:padding="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectIDlabelA"></Spinner>
+        app:layout_constraintTop_toBottomOf="@+id/selectIDlabelA">
+        <Spinner
+
+            android:id="@+id/chooseIDA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></Spinner>
+
+
+
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/selectIDlabel"
@@ -242,7 +258,7 @@
         android:layout_marginTop="8dp"
         android:text="Điền số ID:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chooseID" />
+        app:layout_constraintTop_toBottomOf="@+id/chooseIDb" />
 
     <TextView
         android:id="@+id/typeIDlabelA"
@@ -254,7 +270,7 @@
         android:text="Điền số ID:"
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chooseIDA" />
+        app:layout_constraintTop_toBottomOf="@+id/chooseIDAb" />
 
     <EditText
         android:id="@+id/TypeID"

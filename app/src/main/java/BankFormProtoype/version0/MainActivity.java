@@ -12,18 +12,22 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import java.time.LocalDate;
@@ -62,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView msb2;
     private ImageView vtb2;
     private ImageView bvbI2;
+    private RelativeLayout chooseIDb;
+    private RelativeLayout chooseIDAb;
     private boolean accountFlag;
     private boolean ccIFlag;
     private boolean dcFlag;
@@ -72,19 +78,22 @@ public class MainActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener mDateSetListener2;
     private ImageButton more;
     private boolean moreFlag;
+
     private int cMonth;
     private int cYear;
-
+    private boolean idFlag2;
+    private int idFlag;
     private boolean nameFlag;
     private boolean cvvFlag;
     private boolean cardNumFlag;
     private boolean dateFlag;
+    private int counter;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        counter = 0;
         Spinner chooseID = (Spinner) findViewById(R.id.chooseID);
         Spinner chooseIDA = (Spinner) findViewById(R.id.chooseIDA);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -125,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
         msb2 = (ImageView) findViewById(R.id.msb2);
         more = (ImageButton) findViewById(R.id.more);
 
+        chooseIDAb = (RelativeLayout) findViewById(R.id.chooseIDAb);
+        chooseIDb = (RelativeLayout) findViewById(R.id.chooseIDb);
         mNameLabel.setVisibility(TextView.INVISIBLE);
         mName.setVisibility(EditText.INVISIBLE);
         mExpiryLabel.setVisibility(TextView.INVISIBLE);
@@ -152,8 +163,11 @@ public class MainActivity extends AppCompatActivity {
         vtb.setVisibility(ImageButton.INVISIBLE);
         msb2.setVisibility(ImageView.INVISIBLE);
         vtb2.setVisibility(ImageView.INVISIBLE);
+        chooseIDAb.setVisibility(RelativeLayout.INVISIBLE);
+        chooseIDb.setVisibility(RelativeLayout.INVISIBLE);
         //make name all caps only accept alphabet
         mName.setFilters(new InputFilter[]{getEditTextFilter(),new InputFilter.AllCaps()});
+
         moreFlag = true;
 
         LocalDate currentdate = LocalDate.now();
@@ -177,21 +191,170 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        chooseID.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+           @Override
+           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+               counter++;
+               if(counter > 0){
+                   String selected = parent.getItemAtPosition(position).toString();
+                   if(selected.equals("CMND")){
+                       mTypeIDlabel.setVisibility(TextView.VISIBLE);
+                       mTypeID.setVisibility(EditText.VISIBLE);
+                       mTypeIDlabel.setText("Điền Số Chứng Minh Nhân Dân:");
+                       idFlag = 1;
+
+                   }
+                   else if(selected.equals("CCND")){
+                       mTypeIDlabel.setVisibility(TextView.VISIBLE);
+                       mTypeID.setVisibility(EditText.VISIBLE);
+                       mTypeIDlabel.setText("Điền Số Căn Cước Nhân Dân:");
+                       idFlag = 2;
+                   }
+                   else if(selected.equals("Hộ Chiếu")){
+                       mTypeIDlabel.setVisibility(TextView.VISIBLE);
+                       mTypeID.setVisibility(EditText.VISIBLE);
+                       mTypeIDlabel.setText("Điền Số Hố Chiếu:");
+                       idFlag = 3;
+                   }else{
+                       mTypeIDlabel.setVisibility(TextView.INVISIBLE);
+                       mTypeID.setVisibility(EditText.INVISIBLE);
+                       idFlag = 0;
+                       idFlag2 = false;
+                   }
+               }
+           }
+
+
+           @Override
+           public void onNothingSelected(AdapterView<?> parent) {
+
+           }
+       });
+
+        mTypeID.addTextChangedListener(new TextValidator(mTypeID) {
+            @Override
+            public void validate(TextView textView, String text) {
+                if(idFlag==1){
+                    if(text.length()!=9){
+                        mTypeID.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        mTypeID.setError("Số CMND có 9 số");
+                        idFlag2 = false;
+                    }else{
+                        idFlag2 = true;
+                    }
+
+                }
+                if(idFlag==2){
+                    if(text.length()!=12){
+                        mTypeID.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        mTypeID.setError("Số CCND có 12 số");
+                        idFlag2 = false;
+                    }else{
+                        idFlag2 = true;
+                    }
+
+                }
+                if(idFlag==3){
+                    if(text.length()!=8){
+                        mTypeID.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+                        mTypeID.setError("Hộ Chiếu có 8 số/Chứ");
+                        idFlag2 = false;
+                    }else{
+                        idFlag2 = true;
+                    }
+
+                }
+            }
+        });
+
+        chooseIDA.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                counter++;
+                if(counter>0){
+                    String selected = parent.getItemAtPosition(position).toString();
+                    if(selected.equals("CMND")){
+                        mTypeIDlabelA.setVisibility(TextView.VISIBLE);
+                        mTypeIDA.setVisibility(EditText.VISIBLE);
+                        mTypeIDlabelA.setText("Điền Số Chứng Minh Nhân Dân:");
+                        idFlag = 1;
+
+                    }
+                    else if(selected.equals("CCND")){
+                        mTypeIDlabelA.setVisibility(TextView.VISIBLE);
+                        mTypeIDA.setVisibility(EditText.VISIBLE);
+                        mTypeIDlabelA.setText("Điền Số Căn Cước Nhân Dân:");
+                        idFlag = 2;
+                    }
+                    else if(selected.equals("Hộ Chiếu")){
+                        mTypeIDlabelA.setVisibility(TextView.VISIBLE);
+                        mTypeIDA.setVisibility(EditText.VISIBLE);
+                        mTypeIDlabelA.setText("Điền Số Hố Chiếu:");
+                        idFlag = 3;
+                    }else{
+                        mTypeIDlabelA.setVisibility(TextView.INVISIBLE);
+                        mTypeIDA.setVisibility(EditText.INVISIBLE);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        mTypeIDA.addTextChangedListener(new TextValidator(mTypeIDA) {
+            @Override
+            public void validate(TextView textView, String text) {
+                if(idFlag==1){
+                    if(text.length()!=9){
+                        mTypeIDA.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        mTypeIDA.setError("Số CMND có 9 số");
+                        idFlag2 = false;
+                    }else{
+                        idFlag2 = true;
+                    }
+
+                }
+                if(idFlag==2){
+                    if(text.length()!=12){
+                        mTypeIDA.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        mTypeIDA.setError("Số CCND có 12 số");
+                        idFlag2 = false;
+                    }else{
+                        idFlag2 = true;
+                    }
+
+                }
+                if(idFlag==3){
+                    if(text.length()!=8){
+                        mTypeIDA.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+                        mTypeIDA.setError("Hộ Chiếu có 8 số/Chứ");
+                        idFlag2 = false;
+                    }else{
+                        idFlag2 = true;
+                    }
+
+                }
+            }
+        });
+
         submit.setOnClickListener(new View.OnClickListener() {
 
 
             @Override
             public void onClick(View v) {
-                if(ccIFlag && cardNumFlag && cvvFlag && nameFlag && dateFlag){
+                if (ccIFlag && cardNumFlag && cvvFlag && nameFlag && dateFlag) {
                     openSuccess();
-                }
-                else if(dcFlag && cardNumFlag && dateFlag){
+                } else if (dcFlag && cardNumFlag && dateFlag && idFlag2) {
                     openSuccess();
-                }
-                else if(vcbATMFlag && nameFlag && cardNumFlag && dateFlag){
+                } else if (vcbATMFlag && nameFlag && cardNumFlag && dateFlag && idFlag2) {
                     openSuccess();
-                }
-                else if(accountFlag && nameFlag){
+                } else if (accountFlag && nameFlag && idFlag2) {
                     openSuccess();
                 }
 
@@ -285,10 +448,12 @@ public class MainActivity extends AppCompatActivity {
 
                 String date = month + "/" + year;
 
-                mTypeIDlabel.setVisibility(TextView.VISIBLE);
-                mTypeID.setVisibility(EditText.VISIBLE);
+//                mTypeIDlabel.setVisibility(TextView.VISIBLE);
+//                mTypeID.setVisibility(EditText.VISIBLE);
                 mSelectId.setVisibility(TextView.VISIBLE);
                 chooseID.setVisibility(Spinner.VISIBLE);
+
+                chooseIDb.setVisibility(RelativeLayout.VISIBLE);
                 System.out.println("Month"+month+"Year"+year+"cMonth"+cMonth+"cYear"+cYear);
                 if(vcbATMFlag){
                     if(year > cYear){
@@ -330,11 +495,11 @@ public class MainActivity extends AppCompatActivity {
 
                 String date = month + "/" + year;
                 mDisplayDate2.setText(date);
-                mTypeIDlabelA.setVisibility(TextView.VISIBLE);
-                mTypeIDA.setVisibility(EditText.VISIBLE);
+//                mTypeIDlabelA.setVisibility(TextView.VISIBLE);
+//                mTypeIDA.setVisibility(EditText.VISIBLE);
                 mSelectIdA.setVisibility(TextView.VISIBLE);
                 chooseIDA.setVisibility(Spinner.VISIBLE);
-
+                chooseIDAb.setVisibility(RelativeLayout.VISIBLE);
                 if(vcbATMFlag){
                     if(year > cYear){
                         mDisplayDate2.setError("Năm Cấp Thẻ Không Thể hơn năm này");
@@ -396,7 +561,7 @@ public class MainActivity extends AppCompatActivity {
                 more.setVisibility(ImageButton.INVISIBLE);
                 vtb.setVisibility(ImageButton.INVISIBLE);
                 msb.setVisibility(ImageButton.INVISIBLE);
-                mNameLabel.setText("Điền Tên Chủ Tài Khoảng:");
+                mNameLabel.setText("Điền Tên Chủ Tài Khoản:");
             }
         });
 
@@ -413,11 +578,11 @@ public class MainActivity extends AppCompatActivity {
                 msb.setVisibility(ImageButton.INVISIBLE);
                 vtb2.setVisibility(ImageView.INVISIBLE);
                 msb2.setVisibility(ImageView.VISIBLE);
-                mNameLabel.setText("Điền Tên Chủ Tài Khoảng:");
+                mNameLabel.setText("Điền Tên Chủ Tài Khoản:");
             }
         });
 
-        msb.setOnClickListener(new View.OnClickListener() {
+        vtb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mNameLabel.setVisibility(TextView.VISIBLE);
@@ -430,7 +595,7 @@ public class MainActivity extends AppCompatActivity {
                 msb.setVisibility(ImageButton.INVISIBLE);
                 vtb2.setVisibility(ImageView.VISIBLE);
                 msb2.setVisibility(ImageView.INVISIBLE);
-                mNameLabel.setText("Điền Tên Chủ Tài Khoảng:");
+                mNameLabel.setText("Điền Tên Chủ Tài Khoản:");
             }
         });
 
@@ -453,11 +618,13 @@ public class MainActivity extends AppCompatActivity {
 
                     mSelectIdA.setVisibility(TextView.VISIBLE);
                     chooseIDA.setVisibility(Spinner.VISIBLE);
-                    mTypeIDlabelA.setVisibility(TextView.VISIBLE);
-                    mTypeIDA.setVisibility(EditText.VISIBLE);
+                    chooseIDAb.setVisibility(RelativeLayout.VISIBLE);
+                   // mTypeIDlabelA.setVisibility(TextView.VISIBLE);
+                   // mTypeIDA.setVisibility(EditText.VISIBLE);
 
                 }
                 else if(s.toString().trim().length() > 0 && ccIFlag){
+                    mExpiryLabel.setText("Ngày Hết Hạn:");
                     mExpiryLabel.setVisibility(TextView.VISIBLE);
                     mDisplayDate.setVisibility(EditText.VISIBLE);
                     mCVVlabel.setVisibility(TextView.VISIBLE);
@@ -502,7 +669,7 @@ public class MainActivity extends AppCompatActivity {
                 if(text.contains(" ")){
                     nameFlag = true;
                 }else{
-                    textView.setError("Name must contain a space");
+                    textView.setError("Tên Phái có dấu cách");
                     nameFlag = false;
                 }
 
@@ -514,9 +681,9 @@ public class MainActivity extends AppCompatActivity {
             public void validate(TextView textView, String text) {
                 if(text.length()<3){
                     textView.setError("CVV có 3 số");
-                    cvvFlag = true;
-                } else {
                     cvvFlag = false;
+                } else {
+                    cvvFlag = true;
                 }
             }
         });
@@ -531,9 +698,7 @@ public class MainActivity extends AppCompatActivity {
                   mName.setVisibility(EditText.VISIBLE);
                   visaI.setVisibility(TextView.VISIBLE);
                   ccIFlag = true;
-                  accountFlag = false;
-                  dcFlag = false;
-                  vcbATMFlag = false;
+
 
                   if(text.length() != 16 && ccIFlag){
                       mCardNum.setError("Thẻ VISA cần 16 số");
@@ -547,10 +712,9 @@ public class MainActivity extends AppCompatActivity {
                     vcbI2.setVisibility(ImageView.VISIBLE);
                     mExpiryLabel2.setVisibility(TextView.VISIBLE);
                     mDisplayDate2.setVisibility(TextView.VISIBLE);
+
                     dcFlag = true;
-                    ccIFlag = false;
-                    accountFlag = false;
-                    vcbATMFlag = false;
+
 
                     if(text.length() != 16 && dcFlag){
                        mCardNum.setError("Thẻ debit cần 16 số");
@@ -568,9 +732,7 @@ public class MainActivity extends AppCompatActivity {
                   mName.setVisibility(EditText.VISIBLE);
                   vcbI2.setVisibility(TextView.VISIBLE);
                   vcbATMFlag = true;
-                  ccIFlag = false;
-                  accountFlag = false;
-                  dcFlag = false;
+
 
 
                   if(text.length() != 19 && vcbATMFlag){
@@ -617,6 +779,8 @@ public class MainActivity extends AppCompatActivity {
                     vtb.setVisibility(ImageButton.INVISIBLE);
                     msb2.setVisibility(ImageView.INVISIBLE);
                     vtb2.setVisibility(ImageView.INVISIBLE);
+                    chooseIDAb.setVisibility(RelativeLayout.INVISIBLE);
+                    chooseIDb.setVisibility(RelativeLayout.INVISIBLE);
                     accountFlag = false;
                     ccIFlag = false;
                     dcFlag = false;
