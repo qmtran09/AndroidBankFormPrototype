@@ -69,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
     private boolean moreFlag;
 
 
+    private boolean nameFlag;
+    private boolean cvvFlag;
+    private boolean cardNumFlag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,9 +149,12 @@ public class MainActivity extends AppCompatActivity {
         mName.setFilters(new InputFilter[]{getEditTextFilter(),new InputFilter.AllCaps()});
         moreFlag = true;
 
+
+
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(moreFlag){
                     msb.setVisibility(ImageButton.VISIBLE);
                     vtb.setVisibility(ImageButton.VISIBLE);
@@ -162,9 +169,23 @@ public class MainActivity extends AppCompatActivity {
         });
 
         submit.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View v) {
-                openSuccess();
+                if(ccIFlag && cardNumFlag && cvvFlag && nameFlag){
+                    openSuccess();
+                }
+                else if(dcFlag && cardNumFlag){
+                    openSuccess();
+                }
+                else if(vcbATMFlag && nameFlag && cardNumFlag){
+                    openSuccess();
+                }
+                else if(accountFlag && nameFlag){
+                    openSuccess();
+                }
+
             }
         });
 
@@ -389,7 +410,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 else if(s.toString().trim().length() > 0 && vcbATMFlag){
-                    mExpiryLabel.setText('Ngày Cấp Thẻ:');
+                    mExpiryLabel.setText("Ngày Cấp Thẻ:");
                     mExpiryLabel.setVisibility(TextView.VISIBLE);
                     mDisplayDate.setVisibility(EditText.VISIBLE);
 
@@ -424,9 +445,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void validate(TextView textView, String text) {
                 if(text.contains(" ")){
-
+                    nameFlag = true;
                 }else{
                     textView.setError("Name must contain a space");
+                    nameFlag = false;
                 }
 
             }
@@ -437,6 +459,9 @@ public class MainActivity extends AppCompatActivity {
             public void validate(TextView textView, String text) {
                 if(text.length()<3){
                     textView.setError("CVV có 3 số");
+                    cvvFlag = true;
+                } else {
+                    cvvFlag = false;
                 }
             }
         });
@@ -458,6 +483,9 @@ public class MainActivity extends AppCompatActivity {
                       public void validate(TextView textView, String text) {
                           if(text.length() != 16 && ccIFlag){
                               mCardNum.setError("Thẻ VISA cần 16 số");
+                              cardNumFlag = false;
+                          } else{
+                              cardNumFlag = true;
                           }
                       }
                   });
@@ -472,6 +500,9 @@ public class MainActivity extends AppCompatActivity {
                       public void validate(TextView textView, String text) {
                           if(text.length() != 16 && dcFlag){
                               mCardNum.setError("Thẻ debit cần 16 số");
+                              cardNumFlag = false;
+                          } else{
+                              cardNumFlag = true;
                           }
                       }
                     });
@@ -489,6 +520,9 @@ public class MainActivity extends AppCompatActivity {
                       public void validate(TextView textView, String text) {
                           if(text.length() != 19 && vcbATMFlag){
                               mCardNum.setError("Thẻ ATM cần 19 số");
+                              cardNumFlag = false;
+                          } else{
+                              cardNumFlag = true;
                           }
                       }
                   });
@@ -500,6 +534,7 @@ public class MainActivity extends AppCompatActivity {
                     bvbI.setVisibility(ImageButton.VISIBLE);
                     more.setVisibility(ImageButton.VISIBLE);
                     accountFlag = true;
+                    cardNumFlag = true;
 
                 }else{
                     vcbI.setVisibility(ImageButton.INVISIBLE);
@@ -532,6 +567,8 @@ public class MainActivity extends AppCompatActivity {
                     accountFlag = false;
                     ccIFlag = false;
                     dcFlag = false;
+                    vcbATMFlag = false;
+                    cardNumFlag = false;
                 }
             }
         });
