@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
 
+
     <TextView
         android:id="@+id/cardNumLabel"
         android:layout_width="wrap_content"
@@ -79,6 +80,18 @@
         app:layout_constraintTop_toBottomOf="@+id/cardHolder" />
 
     <TextView
+        android:id="@+id/expiryLabel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="50dp"
+        android:text="Chọn Ngày Hết Hạn:"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardNum" />
+
+    <TextView
         android:id="@+id/expiryDate"
         android:layout_width="120dp"
         android:layout_height="48dp"
@@ -92,6 +105,21 @@
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expiryLabel" />
+
+    <TextView
+        android:id="@+id/expiryDate2"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="8dp"
+        android:background="?attr/editTextBackground"
+        android:ems="10"
+        android:hint="MM/YYYY"
+        android:inputType="textPersonName"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/expiryLabel2" />
 
     <TextView
         android:id="@+id/cvvlabel"
@@ -152,7 +180,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:text="Chọn ID:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expiryDate" />
@@ -277,13 +305,14 @@
         android:id="@+id/submit"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="192dp"
+        android:layout_marginTop="450dp"
         android:text="Liên Kết Ngay"
         app:backgroundTint="#0087F3"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardNum" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

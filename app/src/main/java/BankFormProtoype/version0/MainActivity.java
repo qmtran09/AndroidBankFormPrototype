@@ -36,9 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText mCardNum;
     private TextView mDisplayDate;
+    private TextView mDisplayDate2;
     private TextView mNameLabel;
     private EditText mName;
     private TextView mExpiryLabel;
+    private TextView mExpiryLabel2;
     private TextView mCVVlabel;
     private EditText mCVV;
     private TextView mSelectId;
@@ -53,10 +55,12 @@ public class MainActivity extends AppCompatActivity {
     private ImageView bvbI2;
     private boolean accountFlag;
     private boolean ccIFlag;
+    private boolean dcFlag;
+    private boolean vcbATMFlag;
     private ImageView visaI;
     private Button submit;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
-
+    private DatePickerDialog.OnDateSetListener mDateSetListener2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,11 +78,13 @@ public class MainActivity extends AppCompatActivity {
         chooseIDA.setAdapter(adapter);
 
         mDisplayDate = (TextView) findViewById(R.id.expiryDate);
+        mDisplayDate2 = (TextView) findViewById(R.id.expiryDate2);
 
         mCardNum = (EditText) findViewById(R.id.cardNum);
         mNameLabel = (TextView) findViewById(R.id.cardHolderLabel);
         mName = (EditText) findViewById(R.id.cardHolder);
         mExpiryLabel = (TextView) findViewById(R.id.expiryLabel);
+        mExpiryLabel2 = (TextView) findViewById(R.id.expiryLabel2);
         mCVVlabel = (TextView) findViewById(R.id.cvvlabel);
         mCVV = (EditText) findViewById(R.id.cvv);
         mSelectId = (TextView) findViewById(R.id.selectIDlabel);
@@ -99,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
         mName.setVisibility(EditText.INVISIBLE);
         mExpiryLabel.setVisibility(TextView.INVISIBLE);
         mDisplayDate.setVisibility(TextView.INVISIBLE);
+        mExpiryLabel2.setVisibility(TextView.INVISIBLE);
+        mDisplayDate2.setVisibility(TextView.INVISIBLE);
         mCVVlabel.setVisibility(TextView.INVISIBLE);
         mCVV.setVisibility(EditText.INVISIBLE);
         mSelectId.setVisibility(TextView.INVISIBLE);
@@ -145,6 +153,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mTypeID.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().trim().length() > 0) {
+                    submit.setVisibility(Button.VISIBLE);
+                }
+
+            }
+        });
+
         mDisplayDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -164,6 +192,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mDisplayDate2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        MainActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        mDateSetListener2,
+                        year, month, day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getDatePicker().findViewById(getResources().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
+                dialog.show();
+            }
+        });
+
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -171,6 +218,24 @@ public class MainActivity extends AppCompatActivity {
 
                 String date = month + "/" + year;
                 mDisplayDate.setText(date);
+                mTypeIDlabel.setVisibility(TextView.VISIBLE);
+                mTypeID.setVisibility(EditText.VISIBLE);
+                mSelectId.setVisibility(TextView.VISIBLE);
+                chooseID.setVisibility(Spinner.VISIBLE);
+            }
+        };
+
+        mDateSetListener2 = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+
+                String date = month + "/" + year;
+                mDisplayDate2.setText(date);
+                mTypeIDlabelA.setVisibility(TextView.VISIBLE);
+                mTypeIDA.setVisibility(EditText.VISIBLE);
+                mSelectIdA.setVisibility(TextView.VISIBLE);
+                chooseIDA.setVisibility(Spinner.VISIBLE);
             }
         };
 
@@ -218,6 +283,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         mName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -246,7 +313,12 @@ public class MainActivity extends AppCompatActivity {
                     mCVV.setVisibility(EditText.VISIBLE);
 
                 }
+                else if(s.toString().trim().length() > 0 && vcbATMFlag){
+                    mExpiryLabel.setVisibility(TextView.VISIBLE);
+                    mDisplayDate.setVisibility(EditText.VISIBLE);
 
+
+                }
             }
         });
 
@@ -308,14 +380,46 @@ public class MainActivity extends AppCompatActivity {
                   mCardNum.addTextChangedListener(new TextValidator(mCardNum) {
                       @Override
                       public void validate(TextView textView, String text) {
-                          if(text.length() != 14 && ccIFlag){
-                              mCardNum.setError("Thẻ VISA cần 14 số");
+                          if(text.length() != 16 && ccIFlag){
+                              mCardNum.setError("Thẻ VISA cần 16 số");
+                          }
+                      }
+                  });
+                //VCB international debit card
+              } else if(text.startsWith("436762") || text.startsWith("412977")|| text.startsWith("412647") || text.startsWith("412645")|| text.startsWith("428310")|| text.startsWith("452404") || text.startsWith("469173") || text.startsWith("403277") || text.startsWith("477390") || text.startsWith("526418")|| text.startsWith("222806")|| text.startsWith("377160")|| text.startsWith("621295") ){
+                    vcbI2.setVisibility(ImageView.VISIBLE);
+                    mExpiryLabel2.setVisibility(TextView.VISIBLE);
+                    mDisplayDate2.setVisibility(TextView.VISIBLE);
+                    dcFlag = true;
+                    mCardNum.addTextChangedListener(new TextValidator(mCardNum) {
+                      @Override
+                      public void validate(TextView textView, String text) {
+                          if(text.length() != 16 && dcFlag){
+                              mCardNum.setError("Thẻ debit cần 16 số");
+                          }
+                      }
+                    });
+
+
+
+
+              }else if(text.startsWith("970436")){
+                  mNameLabel.setVisibility(TextView.VISIBLE);
+                  mName.setVisibility(EditText.VISIBLE);
+                  vcbI2.setVisibility(TextView.VISIBLE);
+                  vcbATMFlag = true;
+                  mCardNum.addTextChangedListener(new TextValidator(mCardNum) {
+                      @Override
+                      public void validate(TextView textView, String text) {
+                          if(text.length() != 19 && vcbATMFlag){
+                              mCardNum.setError("Thẻ ATM cần 19 số");
                           }
                       }
                   });
 
-
-                }else if(text.length()==13){
+              }
+              //acct VCB and BVB
+              else if(text.length()==13){
                     vcbI.setVisibility(ImageButton.VISIBLE);
                     bvbI.setVisibility(ImageButton.VISIBLE);
                     accountFlag = true;
@@ -340,9 +444,11 @@ public class MainActivity extends AppCompatActivity {
                     mTypeID.setVisibility(EditText.INVISIBLE);
                     visaI.setVisibility(ImageView.INVISIBLE);
                     submit.setVisibility(Button.INVISIBLE);
+                    mExpiryLabel2.setVisibility(TextView.INVISIBLE);
+                    mDisplayDate2.setVisibility(TextView.INVISIBLE);
                     accountFlag = false;
                     ccIFlag = false;
-
+                    dcFlag = false;
                 }
             }
         });
