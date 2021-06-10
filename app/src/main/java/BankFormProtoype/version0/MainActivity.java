@@ -52,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton vcbI;
     private ImageView vcbI2;
     private ImageButton bvbI;
+    private ImageButton msb;
+    private ImageButton vtb;
+    private ImageView msb2;
+    private ImageView vtb2;
     private ImageView bvbI2;
     private boolean accountFlag;
     private boolean ccIFlag;
@@ -61,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
     private Button submit;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private DatePickerDialog.OnDateSetListener mDateSetListener2;
+    private ImageButton more;
+    private boolean moreFlag;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +108,11 @@ public class MainActivity extends AppCompatActivity {
         vcbI2 = (ImageView) findViewById(R.id.vcb2);
         bvbI2 = (ImageView) findViewById(R.id.bvb2);
         visaI = (ImageView) findViewById(R.id.visa);
+        vtb = (ImageButton) findViewById(R.id.vtb);
+        msb = (ImageButton) findViewById(R.id.msb);
+        vtb2 = (ImageView) findViewById(R.id.vtb2);
+        msb2 = (ImageView) findViewById(R.id.msb2);
+        more = (ImageButton) findViewById(R.id.more);
 
         mNameLabel.setVisibility(TextView.INVISIBLE);
         mName.setVisibility(EditText.INVISIBLE);
@@ -123,8 +136,30 @@ public class MainActivity extends AppCompatActivity {
         bvbI2.setVisibility(ImageView.INVISIBLE);
         visaI.setVisibility(ImageView.INVISIBLE);
         submit.setVisibility(Button.INVISIBLE);
+        more.setVisibility(ImageButton.INVISIBLE);
+        msb.setVisibility(ImageButton.INVISIBLE);
+        vtb.setVisibility(ImageButton.INVISIBLE);
+        msb2.setVisibility(ImageView.INVISIBLE);
+        vtb2.setVisibility(ImageView.INVISIBLE);
         //make name all caps only accept alphabet
         mName.setFilters(new InputFilter[]{getEditTextFilter(),new InputFilter.AllCaps()});
+        moreFlag = true;
+
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(moreFlag){
+                    msb.setVisibility(ImageButton.VISIBLE);
+                    vtb.setVisibility(ImageButton.VISIBLE);
+                    moreFlag = false;
+                } else{
+                    msb.setVisibility(ImageButton.INVISIBLE);
+                    vtb.setVisibility(ImageButton.INVISIBLE);
+                    moreFlag = true;
+                }
+
+            }
+        });
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -266,6 +301,9 @@ public class MainActivity extends AppCompatActivity {
                 mName.setVisibility(EditText.VISIBLE);
                 bvbI.setVisibility(ImageButton.INVISIBLE);
                 vcbI.setVisibility(ImageButton.INVISIBLE);
+                more.setVisibility(ImageButton.INVISIBLE);
+                vtb.setVisibility(ImageButton.INVISIBLE);
+                msb.setVisibility(ImageButton.INVISIBLE);
                 vcbI2.setVisibility(ImageButton.VISIBLE);
                 mNameLabel.setText("Điền Tên Chủ Tài Khoản:");
             }
@@ -279,6 +317,43 @@ public class MainActivity extends AppCompatActivity {
                 bvbI.setVisibility(ImageButton.INVISIBLE);
                 vcbI.setVisibility(ImageButton.INVISIBLE);
                 bvbI2.setVisibility(ImageButton.VISIBLE);
+                more.setVisibility(ImageButton.INVISIBLE);
+                vtb.setVisibility(ImageButton.INVISIBLE);
+                msb.setVisibility(ImageButton.INVISIBLE);
+                mNameLabel.setText("Điền Tên Chủ Tài Khoảng:");
+            }
+        });
+
+        msb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mNameLabel.setVisibility(TextView.VISIBLE);
+                mName.setVisibility(EditText.VISIBLE);
+                bvbI.setVisibility(ImageButton.INVISIBLE);
+                vcbI.setVisibility(ImageButton.INVISIBLE);
+                bvbI2.setVisibility(ImageButton.INVISIBLE);
+                more.setVisibility(ImageButton.INVISIBLE);
+                vtb.setVisibility(ImageButton.INVISIBLE);
+                msb.setVisibility(ImageButton.INVISIBLE);
+                vtb2.setVisibility(ImageView.INVISIBLE);
+                msb2.setVisibility(ImageView.VISIBLE);
+                mNameLabel.setText("Điền Tên Chủ Tài Khoảng:");
+            }
+        });
+
+        msb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mNameLabel.setVisibility(TextView.VISIBLE);
+                mName.setVisibility(EditText.VISIBLE);
+                bvbI.setVisibility(ImageButton.INVISIBLE);
+                vcbI.setVisibility(ImageButton.INVISIBLE);
+                bvbI2.setVisibility(ImageButton.INVISIBLE);
+                more.setVisibility(ImageButton.INVISIBLE);
+                vtb.setVisibility(ImageButton.INVISIBLE);
+                msb.setVisibility(ImageButton.INVISIBLE);
+                vtb2.setVisibility(ImageView.VISIBLE);
+                msb2.setVisibility(ImageView.INVISIBLE);
                 mNameLabel.setText("Điền Tên Chủ Tài Khoảng:");
             }
         });
@@ -314,6 +389,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 else if(s.toString().trim().length() > 0 && vcbATMFlag){
+                    mExpiryLabel.setText('Ngày Cấp Thẻ:');
                     mExpiryLabel.setVisibility(TextView.VISIBLE);
                     mDisplayDate.setVisibility(EditText.VISIBLE);
 
@@ -422,7 +498,9 @@ public class MainActivity extends AppCompatActivity {
               else if(text.length()==13){
                     vcbI.setVisibility(ImageButton.VISIBLE);
                     bvbI.setVisibility(ImageButton.VISIBLE);
+                    more.setVisibility(ImageButton.VISIBLE);
                     accountFlag = true;
+
                 }else{
                     vcbI.setVisibility(ImageButton.INVISIBLE);
                     bvbI.setVisibility(ImageButton.INVISIBLE);
@@ -446,6 +524,11 @@ public class MainActivity extends AppCompatActivity {
                     submit.setVisibility(Button.INVISIBLE);
                     mExpiryLabel2.setVisibility(TextView.INVISIBLE);
                     mDisplayDate2.setVisibility(TextView.INVISIBLE);
+                    more.setVisibility(ImageButton.INVISIBLE);
+                    msb.setVisibility(ImageButton.INVISIBLE);
+                    vtb.setVisibility(ImageButton.INVISIBLE);
+                    msb2.setVisibility(ImageView.INVISIBLE);
+                    vtb2.setVisibility(ImageView.INVISIBLE);
                     accountFlag = false;
                     ccIFlag = false;
                     dcFlag = false;

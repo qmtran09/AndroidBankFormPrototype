@@ -4,9 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#16616060"
     tools:context=".MainActivity">
 
 
+    <ImageButton
+        android:id="@+id/more"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginRight="100dp"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/bvb"
+        app:layout_constraintTop_toBottomOf="@+id/cardNum"
+        app:srcCompat="@android:drawable/ic_menu_add" />
+
+    <ImageButton
+        android:id="@+id/bvb"
+        android:layout_width="92dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_background"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toEndOf="@+id/vcb"
+        app:layout_constraintTop_toBottomOf="@+id/cardNum"
+        app:srcCompat="@drawable/ic_banviet" />
 
     <TextView
         android:id="@+id/cardNumLabel"
@@ -29,6 +61,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="100dp"
         android:layout_marginRight="100dp"
+
         android:ems="10"
         android:hint="xxxx xxxx xxxx xxxx"
         android:inputType="number"
@@ -59,6 +92,7 @@
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
         android:ems="10"
+
         android:hint="TRAN MINH QUANG"
         android:inputType="textPersonName"
         android:textAllCaps="true"
@@ -75,6 +109,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="50dp"
         android:text="Chọn Ngày Hết Hạn:"
+
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardHolder" />
@@ -93,16 +128,15 @@
 
     <TextView
         android:id="@+id/expiryDate"
-        android:layout_width="120dp"
-        android:layout_height="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginLeft="28dp"
         android:layout_marginTop="8dp"
-        android:background="?attr/editTextBackground"
         android:ems="10"
         android:hint="MM/YYYY"
         android:inputType="textPersonName"
-
+        android:background="?attr/editTextBackground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expiryLabel" />
 
@@ -143,6 +177,7 @@
         android:layout_marginRight="100dp"
         android:ems="10"
         android:hint="***"
+
         android:inputType="number"
         android:maxLength="3"
         app:layout_constraintEnd_toEndOf="parent"
@@ -165,6 +200,7 @@
         app:layout_constraintTop_toBottomOf="@+id/selectIDlabel"></Spinner>
 
     <Spinner
+
         android:id="@+id/chooseIDA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -182,6 +218,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
         android:text="Chọn ID:"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expiryDate" />
 
@@ -215,16 +252,19 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="8dp"
         android:text="Điền số ID:"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chooseIDA" />
 
     <EditText
         android:id="@+id/TypeID"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="8dp"
+
+
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
@@ -238,6 +278,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/typeIDlabelA" />
@@ -246,60 +287,99 @@
         android:id="@+id/vcb"
         android:layout_width="92dp"
         android:layout_height="78dp"
-        android:layout_marginStart="76dp"
-        android:layout_marginLeft="76dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginTop="20dp"
         android:adjustViewBounds="true"
+        android:background="@drawable/button_background"
         android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardNum"
-        app:srcCompat="@drawable/vcb2" />
+        app:srcCompat="@drawable/ic_vietcombank" />
 
     <ImageButton
-        android:id="@+id/bvb"
+        android:id="@+id/vtb"
         android:layout_width="92dp"
         android:layout_height="78dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginRight="100dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="32dp"
         android:adjustViewBounds="true"
+        android:background="@drawable/button_background"
         android:scaleType="fitCenter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardNum"
-        app:srcCompat="@drawable/bvb2" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vcb"
+        app:srcCompat="@drawable/ic_vietinbank" />
+
+    <ImageButton
+        android:id="@+id/msb"
+        android:layout_width="92dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="32dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_background"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toEndOf="@+id/vtb"
+        app:layout_constraintTop_toBottomOf="@+id/vcb"
+        app:srcCompat="@drawable/ic_msb" />
 
     <ImageView
         android:id="@+id/vcb2"
-        android:layout_width="72dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="252dp"
-        android:layout_marginLeft="252dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="260dp"
+        android:layout_marginLeft="260dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="@+id/cardNum"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/vcb2" />
+        app:srcCompat="@drawable/ic_vietcombank_2" />
 
     <ImageView
         android:id="@+id/bvb2"
-        android:layout_width="72dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="252dp"
-        android:layout_marginLeft="252dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="260dp"
+        android:layout_marginLeft="260dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="@+id/cardNum"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bvb2" />
+        app:srcCompat="@drawable/ic_banviet_2" />
 
     <ImageView
         android:id="@+id/visa"
-        android:layout_width="72dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="252dp"
-        android:layout_marginLeft="252dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="260dp"
+        android:layout_marginLeft="260dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="@+id/cardNum"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/visa" />
+        app:srcCompat="@drawable/ic_visa_2" />
+
+    <ImageView
+        android:id="@+id/msb2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="260dp"
+        android:layout_marginLeft="260dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="@+id/cardNum"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_msb_2" />
+
+
+    <ImageView
+        android:id="@+id/vtb2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="260dp"
+        android:layout_marginLeft="260dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="@+id/cardNum"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_vietinbank_2" />
 
     <Button
         android:id="@+id/submit"
@@ -312,7 +392,6 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardNum" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
