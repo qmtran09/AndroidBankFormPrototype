@@ -1,5 +1,6 @@
 package BankFormProtoype.version0;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 //import android.support.v7.app.AppCompatActivity;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -14,6 +16,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,6 +26,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import java.time.LocalDate;
+import java.time.Month;
 
 
 
@@ -67,12 +72,14 @@ public class MainActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener mDateSetListener2;
     private ImageButton more;
     private boolean moreFlag;
-
+    private int cMonth;
+    private int cYear;
 
     private boolean nameFlag;
     private boolean cvvFlag;
     private boolean cardNumFlag;
-
+    private boolean dateFlag;
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,7 +156,9 @@ public class MainActivity extends AppCompatActivity {
         mName.setFilters(new InputFilter[]{getEditTextFilter(),new InputFilter.AllCaps()});
         moreFlag = true;
 
-
+        LocalDate currentdate = LocalDate.now();
+        cMonth = currentdate.getMonthValue();
+        cYear = currentdate.getYear();
 
         more.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,13 +182,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if(ccIFlag && cardNumFlag && cvvFlag && nameFlag){
+                if(ccIFlag && cardNumFlag && cvvFlag && nameFlag && dateFlag){
                     openSuccess();
                 }
-                else if(dcFlag && cardNumFlag){
+                else if(dcFlag && cardNumFlag && dateFlag){
                     openSuccess();
                 }
-                else if(vcbATMFlag && nameFlag && cardNumFlag){
+                else if(vcbATMFlag && nameFlag && cardNumFlag && dateFlag){
                     openSuccess();
                 }
                 else if(accountFlag && nameFlag){
@@ -245,6 +254,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.getDatePicker().findViewById(getResources().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
                 dialog.show();
+
             }
         });
 
@@ -264,6 +274,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.getDatePicker().findViewById(getResources().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
                 dialog.show();
+
             }
         });
 
@@ -273,11 +284,42 @@ public class MainActivity extends AppCompatActivity {
                 month = month + 1;
 
                 String date = month + "/" + year;
-                mDisplayDate.setText(date);
+
                 mTypeIDlabel.setVisibility(TextView.VISIBLE);
                 mTypeID.setVisibility(EditText.VISIBLE);
                 mSelectId.setVisibility(TextView.VISIBLE);
                 chooseID.setVisibility(Spinner.VISIBLE);
+                System.out.println("Month"+month+"Year"+year+"cMonth"+cMonth+"cYear"+cYear);
+                if(vcbATMFlag){
+                    if(year > cYear){
+                        mDisplayDate.setError("Năm Cấp Thẻ Không Thể hơn năm này");
+
+                        dateFlag = false;
+                    } else if(year==cYear && month>cMonth){
+                        mDisplayDate.setError("Tháng Cấp Thẻ Không Thể hơn tháng này");
+
+                        dateFlag = false;
+                    } else {
+                        mDisplayDate.setError(null);
+                        dateFlag = true;
+                    }
+
+                }else{
+                    if(year < cYear){
+                        mDisplayDate.setError("đã quá ngày hết hạn");
+
+                        dateFlag = false;
+                    } else if(year==cYear && month<cMonth){
+                        mDisplayDate.setError("đã quá ngày hết hạn");
+
+                        dateFlag = false;
+                    } else {
+                        mDisplayDate.setError(null);
+                        dateFlag = true;
+                    }
+
+                }
+                mDisplayDate.setText(date);
             }
         };
 
@@ -292,28 +334,41 @@ public class MainActivity extends AppCompatActivity {
                 mTypeIDA.setVisibility(EditText.VISIBLE);
                 mSelectIdA.setVisibility(TextView.VISIBLE);
                 chooseIDA.setVisibility(Spinner.VISIBLE);
+
+                if(vcbATMFlag){
+                    if(year > cYear){
+                        mDisplayDate2.setError("Năm Cấp Thẻ Không Thể hơn năm này");
+                        mDisplayDate2.requestFocus();
+                        dateFlag = false;
+                    } else if(year==cYear && month>cMonth){
+                        mDisplayDate2.setError("Tháng Cấp Thẻ Không Thể hơn tháng này");
+                        mDisplayDate2.requestFocus();
+                        dateFlag = false;
+                    } else {
+                        dateFlag = true;
+                        mDisplayDate2.setError(null);
+                    }
+
+                }else{
+                    if(year < cYear){
+                        mDisplayDate2.setError("đã quá ngày hết hạn");
+                        mDisplayDate2.requestFocus();
+                        dateFlag = false;
+                    } else if(year==cYear && month<cMonth){
+                        mDisplayDate2.setError("đã quá ngày hết hạn");
+                        mDisplayDate2.requestFocus();
+                        dateFlag = false;
+                    } else {
+                        mDisplayDate2.setError(null);
+                        dateFlag = true;
+                    }
+
+                }
+
             }
         };
 
-//        mCardNum.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                if (s.toString().trim().length() > 0) {
-//                    mNameLabel.setVisibility(TextView.VISIBLE);
-//                    mName.setVisibility(EditText.VISIBLE);
-//                }
-//            }
-//        });
+
 
         vcbI.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -476,36 +531,34 @@ public class MainActivity extends AppCompatActivity {
                   mName.setVisibility(EditText.VISIBLE);
                   visaI.setVisibility(TextView.VISIBLE);
                   ccIFlag = true;
+                  accountFlag = false;
+                  dcFlag = false;
+                  vcbATMFlag = false;
 
+                  if(text.length() != 16 && ccIFlag){
+                      mCardNum.setError("Thẻ VISA cần 16 số");
+                      cardNumFlag = false;
+                  } else{
+                      cardNumFlag = true;
+                  }
 
-                  mCardNum.addTextChangedListener(new TextValidator(mCardNum) {
-                      @Override
-                      public void validate(TextView textView, String text) {
-                          if(text.length() != 16 && ccIFlag){
-                              mCardNum.setError("Thẻ VISA cần 16 số");
-                              cardNumFlag = false;
-                          } else{
-                              cardNumFlag = true;
-                          }
-                      }
-                  });
                 //VCB international debit card
               } else if(text.startsWith("436762") || text.startsWith("412977")|| text.startsWith("412647") || text.startsWith("412645")|| text.startsWith("428310")|| text.startsWith("452404") || text.startsWith("469173") || text.startsWith("403277") || text.startsWith("477390") || text.startsWith("526418")|| text.startsWith("222806")|| text.startsWith("377160")|| text.startsWith("621295") ){
                     vcbI2.setVisibility(ImageView.VISIBLE);
                     mExpiryLabel2.setVisibility(TextView.VISIBLE);
                     mDisplayDate2.setVisibility(TextView.VISIBLE);
                     dcFlag = true;
-                    mCardNum.addTextChangedListener(new TextValidator(mCardNum) {
-                      @Override
-                      public void validate(TextView textView, String text) {
-                          if(text.length() != 16 && dcFlag){
-                              mCardNum.setError("Thẻ debit cần 16 số");
-                              cardNumFlag = false;
-                          } else{
-                              cardNumFlag = true;
-                          }
-                      }
-                    });
+                    ccIFlag = false;
+                    accountFlag = false;
+                    vcbATMFlag = false;
+
+                    if(text.length() != 16 && dcFlag){
+                       mCardNum.setError("Thẻ debit cần 16 số");
+                       cardNumFlag = false;
+                    } else{
+                        cardNumFlag = true;
+                    }
+
 
 
 
@@ -515,17 +568,17 @@ public class MainActivity extends AppCompatActivity {
                   mName.setVisibility(EditText.VISIBLE);
                   vcbI2.setVisibility(TextView.VISIBLE);
                   vcbATMFlag = true;
-                  mCardNum.addTextChangedListener(new TextValidator(mCardNum) {
-                      @Override
-                      public void validate(TextView textView, String text) {
-                          if(text.length() != 19 && vcbATMFlag){
-                              mCardNum.setError("Thẻ ATM cần 19 số");
-                              cardNumFlag = false;
-                          } else{
-                              cardNumFlag = true;
-                          }
-                      }
-                  });
+                  ccIFlag = false;
+                  accountFlag = false;
+                  dcFlag = false;
+
+
+                  if(text.length() != 19 && vcbATMFlag){
+                      mCardNum.setError("Thẻ ATM cần 19 số");
+                      cardNumFlag = false;
+                  } else{
+                      cardNumFlag = true;
+                  }
 
               }
               //acct VCB and BVB
