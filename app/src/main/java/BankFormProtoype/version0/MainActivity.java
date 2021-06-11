@@ -1,10 +1,12 @@
 package BankFormProtoype.version0;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 //import android.support.v7.app.AppCompatActivity;
@@ -93,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0087F3")));
+
         counter = 0;
         Spinner chooseID = (Spinner) findViewById(R.id.chooseID);
         Spinner chooseIDA = (Spinner) findViewById(R.id.chooseIDA);
@@ -167,7 +172,8 @@ public class MainActivity extends AppCompatActivity {
         chooseIDb.setVisibility(RelativeLayout.INVISIBLE);
         //make name all caps only accept alphabet
         mName.setFilters(new InputFilter[]{getEditTextFilter(),new InputFilter.AllCaps()});
-
+        mTypeID.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        mTypeIDA.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         moreFlag = true;
 
         LocalDate currentdate = LocalDate.now();
@@ -202,23 +208,32 @@ public class MainActivity extends AppCompatActivity {
                        mTypeIDlabel.setVisibility(TextView.VISIBLE);
                        mTypeID.setVisibility(EditText.VISIBLE);
                        mTypeIDlabel.setText("Điền Số Chứng Minh Nhân Dân:");
+                       mTypeID.setInputType(InputType.TYPE_CLASS_NUMBER);
+                       mTypeID.setText("");
                        idFlag = 1;
 
                    }
                    else if(selected.equals("CCND")){
                        mTypeIDlabel.setVisibility(TextView.VISIBLE);
+                       mTypeID.setInputType(InputType.TYPE_CLASS_NUMBER);
                        mTypeID.setVisibility(EditText.VISIBLE);
                        mTypeIDlabel.setText("Điền Số Căn Cước Nhân Dân:");
+                       mTypeID.setText("");
                        idFlag = 2;
                    }
                    else if(selected.equals("Hộ Chiếu")){
+                       mTypeID.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
                        mTypeIDlabel.setVisibility(TextView.VISIBLE);
                        mTypeID.setVisibility(EditText.VISIBLE);
                        mTypeIDlabel.setText("Điền Số Hố Chiếu:");
+                       mTypeID.setText("");
                        idFlag = 3;
                    }else{
                        mTypeIDlabel.setVisibility(TextView.INVISIBLE);
                        mTypeID.setVisibility(EditText.INVISIBLE);
+                       mTypeID.setInputType(InputType.TYPE_CLASS_NUMBER);
+                       mTypeID.setText("");
+                       submit.setVisibility(Button.INVISIBLE);
                        idFlag = 0;
                        idFlag2 = false;
                    }
@@ -237,7 +252,6 @@ public class MainActivity extends AppCompatActivity {
             public void validate(TextView textView, String text) {
                 if(idFlag==1){
                     if(text.length()!=9){
-                        mTypeID.setInputType(InputType.TYPE_CLASS_NUMBER);
                         mTypeID.setError("Số CMND có 9 số");
                         idFlag2 = false;
                     }else{
@@ -245,9 +259,9 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
-                if(idFlag==2){
+                else if(idFlag==2){
                     if(text.length()!=12){
-                        mTypeID.setInputType(InputType.TYPE_CLASS_NUMBER);
+
                         mTypeID.setError("Số CCND có 12 số");
                         idFlag2 = false;
                     }else{
@@ -255,16 +269,21 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
-                if(idFlag==3){
+                else if(idFlag==3){
                     if(text.length()!=8){
-                        mTypeID.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+
+
                         mTypeID.setError("Hộ Chiếu có 8 số/Chứ");
                         idFlag2 = false;
                     }else{
                         idFlag2 = true;
                     }
 
+                } else {
+                    idFlag2 = false;
                 }
+
+                submitCheck();
             }
         });
 
@@ -280,22 +299,32 @@ public class MainActivity extends AppCompatActivity {
                         mTypeIDA.setVisibility(EditText.VISIBLE);
                         mTypeIDlabelA.setText("Điền Số Chứng Minh Nhân Dân:");
                         idFlag = 1;
-
+                        mTypeIDA.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        mTypeIDA.setText("");
                     }
                     else if(selected.equals("CCND")){
                         mTypeIDlabelA.setVisibility(TextView.VISIBLE);
                         mTypeIDA.setVisibility(EditText.VISIBLE);
                         mTypeIDlabelA.setText("Điền Số Căn Cước Nhân Dân:");
                         idFlag = 2;
+                        mTypeIDA.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        mTypeIDA.setText("");
                     }
                     else if(selected.equals("Hộ Chiếu")){
                         mTypeIDlabelA.setVisibility(TextView.VISIBLE);
                         mTypeIDA.setVisibility(EditText.VISIBLE);
                         mTypeIDlabelA.setText("Điền Số Hố Chiếu:");
+                        mTypeIDA.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
                         idFlag = 3;
+                        mTypeIDA.setText("");
                     }else{
                         mTypeIDlabelA.setVisibility(TextView.INVISIBLE);
                         mTypeIDA.setVisibility(EditText.INVISIBLE);
+                        mTypeIDA.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        mTypeIDA.setText("");
+                        submit.setVisibility(Button.INVISIBLE);
+                        idFlag = 0;
+                        idFlag2 = false;
                     }
                 }
 
@@ -312,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
             public void validate(TextView textView, String text) {
                 if(idFlag==1){
                     if(text.length()!=9){
-                        mTypeIDA.setInputType(InputType.TYPE_CLASS_NUMBER);
+
                         mTypeIDA.setError("Số CMND có 9 số");
                         idFlag2 = false;
                     }else{
@@ -320,9 +349,9 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
-                if(idFlag==2){
+                else if(idFlag==2){
                     if(text.length()!=12){
-                        mTypeIDA.setInputType(InputType.TYPE_CLASS_NUMBER);
+
                         mTypeIDA.setError("Số CCND có 12 số");
                         idFlag2 = false;
                     }else{
@@ -330,17 +359,21 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
-                if(idFlag==3){
+                else if(idFlag==3){
                     if(text.length()!=8){
-                        mTypeIDA.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+
                         mTypeIDA.setError("Hộ Chiếu có 8 số/Chứ");
                         idFlag2 = false;
                     }else{
                         idFlag2 = true;
                     }
 
+                } else {
+                    idFlag2 = false;
                 }
+                submitCheck();
             }
+
         });
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -376,6 +409,8 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if (s.toString().trim().length() > 0) {
                     submit.setVisibility(Button.VISIBLE);
+                } else{
+                    submit.setVisibility(Button.INVISIBLE);
                 }
 
             }
@@ -396,6 +431,9 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if (s.toString().trim().length() > 0) {
                     submit.setVisibility(Button.VISIBLE);
+
+                }else{
+                    submit.setVisibility(Button.INVISIBLE);
                 }
 
             }
@@ -447,14 +485,20 @@ public class MainActivity extends AppCompatActivity {
                 month = month + 1;
 
                 String date = month + "/" + year;
-
+                mDisplayDate.setText(date);
 //                mTypeIDlabel.setVisibility(TextView.VISIBLE);
 //                mTypeID.setVisibility(EditText.VISIBLE);
-                mSelectId.setVisibility(TextView.VISIBLE);
-                chooseID.setVisibility(Spinner.VISIBLE);
+                if(!ccIFlag){
+                    mSelectId.setVisibility(TextView.VISIBLE);
+                    chooseID.setVisibility(Spinner.VISIBLE);
+                    chooseIDb.setVisibility(RelativeLayout.VISIBLE);
 
-                chooseIDb.setVisibility(RelativeLayout.VISIBLE);
-                System.out.println("Month"+month+"Year"+year+"cMonth"+cMonth+"cYear"+cYear);
+                }
+
+
+
+
+
                 if(vcbATMFlag){
                     if(year > cYear){
                         mDisplayDate.setError("Năm Cấp Thẻ Không Thể hơn năm này");
@@ -484,7 +528,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
-                mDisplayDate.setText(date);
+
+                submitCheck();
             }
         };
 
@@ -497,6 +542,8 @@ public class MainActivity extends AppCompatActivity {
                 mDisplayDate2.setText(date);
 //                mTypeIDlabelA.setVisibility(TextView.VISIBLE);
 //                mTypeIDA.setVisibility(EditText.VISIBLE);
+
+
                 mSelectIdA.setVisibility(TextView.VISIBLE);
                 chooseIDA.setVisibility(Spinner.VISIBLE);
                 chooseIDAb.setVisibility(RelativeLayout.VISIBLE);
@@ -529,6 +576,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
+
+                submitCheck();
 
             }
         };
@@ -660,7 +709,10 @@ public class MainActivity extends AppCompatActivity {
                     //chooseID.setVisibility(EditText.VISIBLE);
                     //mTypeIDlabel.setVisibility(TextView.VISIBLE);
                     //mTypeID.setVisibility(EditText.VISIBLE);
+                }else{
+                    submit.setVisibility(Button.INVISIBLE);
                 }
+                submitCheck();
             }
         });
         mName.addTextChangedListener(new TextValidator(mName) {
@@ -672,6 +724,7 @@ public class MainActivity extends AppCompatActivity {
                     textView.setError("Tên Phái có dấu cách");
                     nameFlag = false;
                 }
+                submitCheck();
 
             }
         });
@@ -680,11 +733,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void validate(TextView textView, String text) {
                 if(text.length()<3){
-                    textView.setError("CVV có 3 số");
+                    textView.setError("CVV có 3 số (3 số ở mặt sau của thẻ)");
                     cvvFlag = false;
                 } else {
                     cvvFlag = true;
                 }
+
+                submitCheck();
             }
         });
 
@@ -787,10 +842,30 @@ public class MainActivity extends AppCompatActivity {
                     vcbATMFlag = false;
                     cardNumFlag = false;
                 }
+
+                submitCheck();
             }
         });
 
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void submitCheck(){
+        if (ccIFlag && cardNumFlag && cvvFlag && nameFlag && dateFlag) {
+            submit.setBackgroundTintList(ColorStateList.valueOf(0xFF0087F3));
+        } else if (dcFlag && cardNumFlag && dateFlag && idFlag2) {
+            submit.setBackgroundTintList(ColorStateList.valueOf(0xFF0087F3));
+        } else if (vcbATMFlag && nameFlag && cardNumFlag && dateFlag && idFlag2) {
+            submit.setBackgroundTintList(ColorStateList.valueOf(0xFF0087F3));
+        } else if (accountFlag && nameFlag && idFlag2) {
+            submit.setBackgroundTintList(ColorStateList.valueOf(0xFF0087F3));
+        } else{
+            submit.setBackgroundTintList(ColorStateList.valueOf(0xFFA9AEB1));
+        }
+    }
+
+
+
     public static InputFilter getEditTextFilter() {
         return new InputFilter() {
 

@@ -14,7 +14,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="100dp"
         android:layout_marginRight="100dp"
         android:adjustViewBounds="true"
@@ -63,7 +63,7 @@
         android:layout_marginRight="100dp"
 
         android:ems="10"
-        android:hint="xxxx xxxx xxxx xxxx"
+        android:hint=""
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -93,7 +93,7 @@
         android:layout_marginRight="30dp"
         android:ems="10"
 
-        android:hint="TRAN MINH QUANG"
+        android:hint="Tên"
         android:inputType="textPersonName"
         android:textAllCaps="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -159,8 +159,11 @@
         android:id="@+id/cvvlabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="60dp"
         android:layout_marginTop="50dp"
         android:text="CVV:"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.246"
         app:layout_constraintStart_toEndOf="@+id/expiryLabel"
@@ -168,10 +171,10 @@
 
     <EditText
         android:id="@+id/cvv"
-        android:layout_width="50dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginLeft="33dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="100dp"
         android:layout_marginRight="100dp"
@@ -181,7 +184,7 @@
         android:inputType="number"
         android:maxLength="3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.747"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/expiryDate"
         app:layout_constraintTop_toBottomOf="@+id/cvvlabel" />
 
@@ -274,28 +277,29 @@
 
     <EditText
         android:id="@+id/TypeID"
-        android:layout_width="200dp"
+        android:layout_width="235dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="8dp"
-
-
         android:ems="10"
-        android:inputType="textPersonName"
+
+        android:hint="@string/idHint"
+        android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/typeIDlabel" />
 
     <EditText
         android:id="@+id/AtypeID"
-        android:layout_width="wrap_content"
+        android:layout_width="235dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="8dp"
+        android:hint="@string/idHint"
         android:ems="10"
 
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/typeIDlabelA" />
 
