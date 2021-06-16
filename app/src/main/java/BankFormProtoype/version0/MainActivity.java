@@ -1,5 +1,6 @@
 package BankFormProtoype.version0;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,19 +33,31 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.time.LocalDate;
 import java.time.Month;
 
 
-
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.lang.System.currentTimeMillis;
 
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-
+    private String uniqueID = UUID.randomUUID().toString();
     private EditText mCardNum;
     private TextView mDisplayDate;
     private TextView mDisplayDate2;
@@ -90,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean cardNumFlag;
     private boolean dateFlag;
     private int counter;
+    private DatabaseReference db;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0087F3")));
+        db = FirebaseDatabase.getInstance("https://bank-form-prototype-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
 
         counter = 0;
         Spinner chooseID = (Spinner) findViewById(R.id.chooseID);
@@ -179,6 +195,8 @@ public class MainActivity extends AppCompatActivity {
         LocalDate currentdate = LocalDate.now();
         cMonth = currentdate.getMonthValue();
         cYear = currentdate.getYear();
+
+        updateData("load bank form","");
 
         more.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -326,7 +344,10 @@ public class MainActivity extends AppCompatActivity {
                         idFlag = 0;
                         idFlag2 = false;
                     }
+
                 }
+
+
 
             }
 
@@ -596,6 +617,17 @@ public class MainActivity extends AppCompatActivity {
                 msb.setVisibility(ImageButton.INVISIBLE);
                 vcbI2.setVisibility(ImageButton.VISIBLE);
                 mNameLabel.setText("Điền Tên Chủ Tài Khoản:");
+                //initialize data tracking
+//                List<String> event = new ArrayList<String>();
+//                List<String> metadata = new ArrayList<String>();
+//                List<String> time = new ArrayList<String>();
+//                List<String> id = new ArrayList<String>();
+//                event.add("dummy");
+//                metadata.add("dummy");
+//                time.add("dummy");
+//                id.add("dummy");
+//                Data newD = new Data(event,metadata,time,id);
+//                db.child("Click Data").setValue(newD);
             }
         });
 
@@ -645,6 +677,7 @@ public class MainActivity extends AppCompatActivity {
                 vtb2.setVisibility(ImageView.VISIBLE);
                 msb2.setVisibility(ImageView.INVISIBLE);
                 mNameLabel.setText("Điền Tên Chủ Tài Khoản:");
+                updateData("select bank","VTB");
             }
         });
 
@@ -742,6 +775,8 @@ public class MainActivity extends AppCompatActivity {
                 submitCheck();
             }
         });
+
+
 
         mCardNum.addTextChangedListener(new TextValidator(mCardNum) {
             @Override
@@ -905,5 +940,30 @@ public class MainActivity extends AppCompatActivity {
     public void openSuccess() {
         Intent intent = new Intent(this,success.class);
         startActivity(intent);
+    }
+
+    public void updateData(String newEvent, String newMetadata){
+        db.child("Click Data").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if(!task.isSuccessful()){
+                    Log.e("firebase", "Error getting data", task.getException());
+                }else{ Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    Data oldD = task.getResult().getValue(Data.class);
+                    List<String> event = oldD.event;
+                    List<String> metadata = oldD.metadata;
+                    List<String> time = oldD.time;
+                    List<String> id = oldD.userId;
+                    event.add(newEvent);
+                    metadata.add(newMetadata);
+                    time.add(Long.toString(currentTimeMillis()));
+                    id.add(uniqueID);
+                    Data newD = new Data(event,metadata,time,id);
+                    db.child("Click Data").setValue(newD);
+
+
+                }
+            }
+        });
     }
 }
