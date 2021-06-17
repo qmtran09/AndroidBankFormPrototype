@@ -6,6 +6,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean cvvFlag;
     private boolean cardNumFlag;
     private boolean dateFlag;
+
     private int counter;
     private DatabaseReference db;
 
@@ -196,6 +198,18 @@ public class MainActivity extends AppCompatActivity {
         cMonth = currentdate.getMonthValue();
         cYear = currentdate.getYear();
 
+        //initialize data tracking
+//        List<String> event = new ArrayList<String>();
+//        List<String> metadata = new ArrayList<String>();
+//        List<String> time = new ArrayList<String>();
+//        List<String> id = new ArrayList<String>();
+//        event.add("dummy");
+//        metadata.add("dummy");
+//        time.add("dummy");
+//        id.add("dummy");
+//        Data newD = new Data(event,metadata,time,id);
+//        db.child("Click Data").setValue(newD);
+
         updateData("load bank form","");
 
         more.setOnClickListener(new View.OnClickListener() {
@@ -216,6 +230,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
+
         chooseID.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
            @Override
            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -229,15 +245,17 @@ public class MainActivity extends AppCompatActivity {
                        mTypeID.setInputType(InputType.TYPE_CLASS_NUMBER);
                        mTypeID.setText("");
                        idFlag = 1;
+                       updateData("select ID","'Flow: "+flowCheck()+"' 'IDtype: CMND'");
 
                    }
-                   else if(selected.equals("CCND")){
+                   else if(selected.equals("CCCD")){
                        mTypeIDlabel.setVisibility(TextView.VISIBLE);
                        mTypeID.setInputType(InputType.TYPE_CLASS_NUMBER);
                        mTypeID.setVisibility(EditText.VISIBLE);
-                       mTypeIDlabel.setText("Điền Số Căn Cước Nhân Dân:");
+                       mTypeIDlabel.setText("Điền Số Căn Cước Công Dân:");
                        mTypeID.setText("");
                        idFlag = 2;
+                       updateData("select ID","'Flow: "+flowCheck()+"' 'IDtype: CCCD'");
                    }
                    else if(selected.equals("Hộ Chiếu")){
                        mTypeID.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
@@ -246,6 +264,7 @@ public class MainActivity extends AppCompatActivity {
                        mTypeIDlabel.setText("Điền Số Hố Chiếu:");
                        mTypeID.setText("");
                        idFlag = 3;
+                       updateData("select ID","'Flow: "+flowCheck()+"' 'IDtype: Passport'");
                    }else{
                        mTypeIDlabel.setVisibility(TextView.INVISIBLE);
                        mTypeID.setVisibility(EditText.INVISIBLE);
@@ -280,7 +299,7 @@ public class MainActivity extends AppCompatActivity {
                 else if(idFlag==2){
                     if(text.length()!=12){
 
-                        mTypeID.setError("Số CCND có 12 số");
+                        mTypeID.setError("Số CCCD có 12 số");
                         idFlag2 = false;
                     }else{
                         idFlag2 = true;
@@ -300,7 +319,9 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     idFlag2 = false;
                 }
-
+                if(text.length()==6){
+                    updateData("Type ID","'first6ID: "+text+"' 'Flow: "+flowCheck()+"'");
+                }
                 submitCheck();
             }
         });
@@ -319,14 +340,16 @@ public class MainActivity extends AppCompatActivity {
                         idFlag = 1;
                         mTypeIDA.setInputType(InputType.TYPE_CLASS_NUMBER);
                         mTypeIDA.setText("");
+                        updateData("select ID","'Flow: "+flowCheck()+"' 'IDtype: CMND'");
                     }
-                    else if(selected.equals("CCND")){
+                    else if(selected.equals("CCCD")){
                         mTypeIDlabelA.setVisibility(TextView.VISIBLE);
                         mTypeIDA.setVisibility(EditText.VISIBLE);
-                        mTypeIDlabelA.setText("Điền Số Căn Cước Nhân Dân:");
+                        mTypeIDlabelA.setText("Điền Số Căn Cước Công Dân:");
                         idFlag = 2;
                         mTypeIDA.setInputType(InputType.TYPE_CLASS_NUMBER);
                         mTypeIDA.setText("");
+                        updateData("select ID","'Flow: "+flowCheck()+"' 'IDtype: CCCD'");
                     }
                     else if(selected.equals("Hộ Chiếu")){
                         mTypeIDlabelA.setVisibility(TextView.VISIBLE);
@@ -335,6 +358,7 @@ public class MainActivity extends AppCompatActivity {
                         mTypeIDA.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
                         idFlag = 3;
                         mTypeIDA.setText("");
+                        updateData("select ID","'Flow: "+flowCheck()+"' 'IDtype: Passport'");
                     }else{
                         mTypeIDlabelA.setVisibility(TextView.INVISIBLE);
                         mTypeIDA.setVisibility(EditText.INVISIBLE);
@@ -373,7 +397,7 @@ public class MainActivity extends AppCompatActivity {
                 else if(idFlag==2){
                     if(text.length()!=12){
 
-                        mTypeIDA.setError("Số CCND có 12 số");
+                        mTypeIDA.setError("Số CCCD có 12 số");
                         idFlag2 = false;
                     }else{
                         idFlag2 = true;
@@ -392,9 +416,52 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     idFlag2 = false;
                 }
+                if(text.length()==6){
+                    updateData("Type ID","'first6ID: "+text+"' 'Flow: "+flowCheck()+"'");
+                }
                 submitCheck();
             }
 
+        });
+
+        mTypeID.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String idType = "";
+                if(idFlag==1){
+                    idType = "CMND";
+                }else if(idFlag == 2){
+                    idType = "CCCD";
+                }else if(idFlag == 3){
+                    idType = "Passport";
+                }
+
+                if(hasFocus){
+                    updateData("click on ID field","'IDtype: "+idType+"' 'IDvalue: "+((EditText)v).getText().toString().trim()+"' 'Flow: "+flowCheck()+"'");
+                }else{
+                    updateData("click out of ID field","'IDtype: "+idType+"' 'IDvalue: "+((EditText)v).getText().toString().trim()+"' 'Flow: "+flowCheck()+"'");
+                }
+            }
+        });
+
+        mTypeIDA.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String idType = "";
+                if(idFlag==1){
+                    idType = "CMND";
+                }else if(idFlag == 2){
+                    idType = "CCCD";
+                }else if(idFlag == 3){
+                    idType = "Passport";
+                }
+
+                if(hasFocus){
+                    updateData("click on ID field","'IDtype: "+idType+"' 'IDvalue: "+((EditText)v).getText().toString().trim()+"' 'Flow: "+flowCheck()+"'");
+                }else{
+                    updateData("click out of ID field","'IDtype: "+idType+"' 'IDvalue: "+((EditText)v).getText().toString().trim()+"' 'Flow: "+flowCheck()+"'");
+                }
+            }
         });
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -403,13 +470,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (ccIFlag && cardNumFlag && cvvFlag && nameFlag && dateFlag) {
+                    updateData("click submit success","'Flow: "+flowCheck()+"'");
                     openSuccess();
                 } else if (dcFlag && cardNumFlag && dateFlag && idFlag2) {
+                    updateData("click submit success","'Flow: "+flowCheck()+"'");
                     openSuccess();
                 } else if (vcbATMFlag && nameFlag && cardNumFlag && dateFlag && idFlag2) {
+                    updateData("click submit success","'Flow: "+flowCheck()+"'");
                     openSuccess();
                 } else if (accountFlag && nameFlag && idFlag2) {
+                    updateData("click submit success","'Flow: "+flowCheck()+"'");
                     openSuccess();
+                }else{
+                    updateData("click submit failed","'Flow: "+flowCheck()+"'");
                 }
 
             }
@@ -477,6 +550,8 @@ public class MainActivity extends AppCompatActivity {
                 dialog.getDatePicker().findViewById(getResources().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
                 dialog.show();
 
+                updateData("Click on date picker","'Flow: "+flowCheck()+"'");
+
             }
         });
 
@@ -496,6 +571,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.getDatePicker().findViewById(getResources().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
                 dialog.show();
+                updateData("Click on date picker","'Flow: "+flowCheck()+"'");
 
             }
         });
@@ -515,10 +591,6 @@ public class MainActivity extends AppCompatActivity {
                     chooseIDb.setVisibility(RelativeLayout.VISIBLE);
 
                 }
-
-
-
-
 
                 if(vcbATMFlag){
                     if(year > cYear){
@@ -549,7 +621,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
-
+                updateData("select date","'Date: "+date+"' 'Flow: "+flowCheck()+"'");
                 submitCheck();
             }
         };
@@ -597,7 +669,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
-
+                updateData("select date","'Date: "+date+"' 'Flow: "+flowCheck()+"'");
                 submitCheck();
 
             }
@@ -610,24 +682,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mNameLabel.setVisibility(TextView.VISIBLE);
                 mName.setVisibility(EditText.VISIBLE);
+                vcbI2.setVisibility(ImageButton.VISIBLE);
+                mNameLabel.setText("Điền Tên Chủ Tài Khoản:");
                 bvbI.setVisibility(ImageButton.INVISIBLE);
                 vcbI.setVisibility(ImageButton.INVISIBLE);
                 more.setVisibility(ImageButton.INVISIBLE);
                 vtb.setVisibility(ImageButton.INVISIBLE);
                 msb.setVisibility(ImageButton.INVISIBLE);
-                vcbI2.setVisibility(ImageButton.VISIBLE);
-                mNameLabel.setText("Điền Tên Chủ Tài Khoản:");
-                //initialize data tracking
-//                List<String> event = new ArrayList<String>();
-//                List<String> metadata = new ArrayList<String>();
-//                List<String> time = new ArrayList<String>();
-//                List<String> id = new ArrayList<String>();
-//                event.add("dummy");
-//                metadata.add("dummy");
-//                time.add("dummy");
-//                id.add("dummy");
-//                Data newD = new Data(event,metadata,time,id);
-//                db.child("Click Data").setValue(newD);
+
+
+
             }
         });
 
@@ -751,14 +815,29 @@ public class MainActivity extends AppCompatActivity {
         mName.addTextChangedListener(new TextValidator(mName) {
             @Override
             public void validate(TextView textView, String text) {
+
                 if(text.contains(" ")){
                     nameFlag = true;
                 }else{
                     textView.setError("Tên Phái có dấu cách");
                     nameFlag = false;
                 }
+
+                if(text.length()==6){
+                    updateData("type name","name: "+text+" Flow: "+flowCheck());
+                }
                 submitCheck();
 
+            }
+        });
+        mName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    updateData("click on name","'name: "+((EditText)v).getText().toString().trim()+"' 'Flow: "+flowCheck()+"'");
+                }else {
+                    updateData("click out of name","'name: "+((EditText)v).getText().toString().trim()+"' Flow: "+flowCheck()+"'");
+                }
             }
         });
 
@@ -771,16 +850,46 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     cvvFlag = true;
                 }
-
+                if(text.length()==3){
+                    updateData("Type CVV", "'CVV: "+text+"' 'Flow: "+flowCheck()+"'");
+                }
                 submitCheck();
+            }
+        });
+
+        mCVV.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    updateData("click on CVV","'CVV: "+((EditText)v).getText().toString().trim()+"' 'Flow' "+flowCheck()+"'");
+                }
             }
         });
 
 
 
+        mCardNum.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if(!hasFocus){
+                    updateData("click out of cardnum","'cardNum: "+((EditText)v).getText().toString().trim()+"' 'Flow: "+flowCheck()+"'");
+
+                }else {
+                    updateData("click on cardnum","'cardNum: "+((EditText)v).getText().toString().trim()+"' 'Flow: "+flowCheck()+"'");
+
+
+                }
+
+            }
+        });
+
+
         mCardNum.addTextChangedListener(new TextValidator(mCardNum) {
             @Override
             public void validate(TextView textView, String text) {
+
+
                 //International credit card VCB
               if(text.startsWith("514003") ||text.startsWith("438103")||text.startsWith("547886")||text.startsWith("546285")||text.startsWith("546284")||text.startsWith("477389")||text.startsWith("469174")||text.startsWith("461136")||text.startsWith("412975")||text.startsWith("4212976")||text.startsWith("356771")||text.startsWith("356770")||text.startsWith("356435")) {
 
@@ -834,12 +943,16 @@ public class MainActivity extends AppCompatActivity {
 
               }
               //acct VCB and BVB
-              else if(text.length()==13){
-                    vcbI.setVisibility(ImageButton.VISIBLE);
-                    bvbI.setVisibility(ImageButton.VISIBLE);
-                    more.setVisibility(ImageButton.VISIBLE);
+              else if(text.length()==13 || text.length()==10){
+//                    vcbI.setVisibility(ImageButton.VISIBLE);
+//                    bvbI.setVisibility(ImageButton.VISIBLE);
+//                    more.setVisibility(ImageButton.VISIBLE);
                     accountFlag = true;
                     cardNumFlag = true;
+                    mNameLabel.setVisibility(TextView.VISIBLE);
+                    mName.setVisibility(EditText.VISIBLE);
+                    vcbI2.setVisibility(ImageButton.VISIBLE);
+                    mNameLabel.setText("Điền Tên Chủ Tài Khoản:");
 
                 }else{
                     vcbI.setVisibility(ImageButton.INVISIBLE);
@@ -876,6 +989,10 @@ public class MainActivity extends AppCompatActivity {
                     dcFlag = false;
                     vcbATMFlag = false;
                     cardNumFlag = false;
+                }
+
+                if(text.length()==6){
+                    updateData("type cardnum","'cardNum "+text+"' 'Flow: "+flowCheck()+"'");
                 }
 
                 submitCheck();
@@ -966,4 +1083,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public String flowCheck(){
+        if(ccIFlag){
+            return("VCB international credit card");
+
+        }else if(vcbATMFlag){
+            return("VCB ATM card");
+
+        }else if(dcFlag){
+            return("VCB debit card");
+
+        }else if(accountFlag) {
+            return("VCB account");
+        }else{
+            return("");
+        }
+    };
+
 }

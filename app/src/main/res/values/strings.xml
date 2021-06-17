@@ -3,7 +3,7 @@
     <string-array name="idChoice">
         <item></item>
         <item>CMND</item>
-        <item>CCND</item>
+        <item>CCCD</item>
         <item>Hộ Chiếu</item>
     </string-array>
     <string name="idHint"><font size="12">(Cần khớp với thông tin tại ngân hàng)</font></string>
