@@ -35,6 +35,7 @@ import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -603,10 +604,12 @@ public class MainActivity extends AppCompatActivity {
                         if(vcbATMFlag){
                             if(year > cYear){
                                 mDisplayDate.setError("Năm Cấp Thẻ Không Thể hơn năm này");
+                                Toast.makeText(MainActivity.this,"Năm Cấp Thẻ Không Thể hơn năm này",Toast.LENGTH_LONG).show();
 
                                 dateFlag = false;
                             } else if(year==cYear && month>cMonth){
                                 mDisplayDate.setError("Tháng Cấp Thẻ Không Thể hơn tháng này");
+                                Toast.makeText(MainActivity.this,"Tháng Cấp Thẻ Không Thể hơn tháng này",Toast.LENGTH_LONG).show();
 
                                 dateFlag = false;
                             } else {
@@ -617,11 +620,11 @@ public class MainActivity extends AppCompatActivity {
                         }else{
                             if(year < cYear){
                                 mDisplayDate.setError("đã quá ngày hết hạn");
-
+                                Toast.makeText(MainActivity.this,"đã quá ngày hết hạn",Toast.LENGTH_LONG).show();
                                 dateFlag = false;
                             } else if(year==cYear && month<cMonth){
                                 mDisplayDate.setError("đã quá ngày hết hạn");
-
+                                Toast.makeText(MainActivity.this,"đã quá ngày hết hạn",Toast.LENGTH_LONG).show();
                                 dateFlag = false;
                             } else {
                                 mDisplayDate.setError(null);
@@ -706,11 +709,11 @@ public class MainActivity extends AppCompatActivity {
                         if(vcbATMFlag){
                             if(year > cYear){
                                 mDisplayDate2.setError("Năm Cấp Thẻ Không Thể hơn năm này");
-                                mDisplayDate2.requestFocus();
+                                Toast.makeText(MainActivity.this,"Năm Cấp Thẻ Không Thể hơn năm này",Toast.LENGTH_LONG).show();
                                 dateFlag = false;
                             } else if(year==cYear && month>cMonth){
                                 mDisplayDate2.setError("Tháng Cấp Thẻ Không Thể hơn tháng này");
-                                mDisplayDate2.requestFocus();
+                                Toast.makeText(MainActivity.this,"Tháng Cấp Thẻ Không Thể hơn tháng này",Toast.LENGTH_LONG).show();
                                 dateFlag = false;
                             } else {
                                 dateFlag = true;
@@ -720,11 +723,11 @@ public class MainActivity extends AppCompatActivity {
                         }else{
                             if(year < cYear){
                                 mDisplayDate2.setError("đã quá ngày hết hạn");
-                                mDisplayDate2.requestFocus();
+                                Toast.makeText(MainActivity.this,"đã quá ngày hết hạn",Toast.LENGTH_LONG).show();
                                 dateFlag = false;
                             } else if(year==cYear && month<cMonth){
                                 mDisplayDate2.setError("đã quá ngày hết hạn");
-                                mDisplayDate2.requestFocus();
+                                Toast.makeText(MainActivity.this,"đã quá ngày hết hạn",Toast.LENGTH_LONG).show();
                                 dateFlag = false;
                             } else {
                                 mDisplayDate2.setError(null);
