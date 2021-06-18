@@ -31,6 +31,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -533,6 +534,49 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//        mDisplayDate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Calendar cal = Calendar.getInstance();
+//                int year = cal.get(Calendar.YEAR);
+//                int month = cal.get(Calendar.MONTH);
+//                int day = cal.get(Calendar.DAY_OF_MONTH);
+//
+//                DatePickerDialog dialog = new DatePickerDialog(
+//                        MainActivity.this,
+//                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+//                        mDateSetListener,
+//                        year, month, day);
+//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                dialog.getDatePicker().findViewById(getResources().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
+//                dialog.show();
+//
+//                updateData("Click on date picker","'Flow: "+flowCheck()+"'");
+//
+//            }
+//        });
+
+//        mDisplayDate2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Calendar cal = Calendar.getInstance();
+//                int year = cal.get(Calendar.YEAR);
+//                int month = cal.get(Calendar.MONTH);
+//                int day = cal.get(Calendar.DAY_OF_MONTH);
+//
+//                DatePickerDialog dialog = new DatePickerDialog(
+//                        MainActivity.this,
+//                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+//                        mDateSetListener2,
+//                        year, month, day);
+//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                dialog.getDatePicker().findViewById(getResources().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
+//                dialog.show();
+//                updateData("Click on date picker","'Flow: "+flowCheck()+"'");
+//
+//            }
+//        });
+//
         mDisplayDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -541,19 +585,102 @@ public class MainActivity extends AppCompatActivity {
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(
-                        MainActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        mDateSetListener,
-                        year, month, day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.getDatePicker().findViewById(getResources().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
-                dialog.show();
+                DatePickerDialog mDatePicker = new DatePickerDialog(MainActivity.this, android.R.style.Theme_Holo_Light_Dialog, new DatePickerDialog.OnDateSetListener() {
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        month = month + 1;
+
+                        String date = month + "/" + year;
+                        mDisplayDate.setText(date);
+        //                mTypeIDlabel.setVisibility(TextView.VISIBLE);
+        //                mTypeID.setVisibility(EditText.VISIBLE);
+                        if(!ccIFlag){
+                            mSelectId.setVisibility(TextView.VISIBLE);
+                            chooseID.setVisibility(Spinner.VISIBLE);
+                            chooseIDb.setVisibility(RelativeLayout.VISIBLE);
+
+                        }
+
+                        if(vcbATMFlag){
+                            if(year > cYear){
+                                mDisplayDate.setError("Năm Cấp Thẻ Không Thể hơn năm này");
+
+                                dateFlag = false;
+                            } else if(year==cYear && month>cMonth){
+                                mDisplayDate.setError("Tháng Cấp Thẻ Không Thể hơn tháng này");
+
+                                dateFlag = false;
+                            } else {
+                                mDisplayDate.setError(null);
+                                dateFlag = true;
+                            }
+
+                        }else{
+                            if(year < cYear){
+                                mDisplayDate.setError("đã quá ngày hết hạn");
+
+                                dateFlag = false;
+                            } else if(year==cYear && month<cMonth){
+                                mDisplayDate.setError("đã quá ngày hết hạn");
+
+                                dateFlag = false;
+                            } else {
+                                mDisplayDate.setError(null);
+                                dateFlag = true;
+                            }
+
+                        }
+                        updateData("select date","'Date: "+date+"' 'Flow: "+flowCheck()+"'");
+                        submitCheck();
+                    }
+                }, year, month, day) {
+
+                    final int month = getContext().getResources().getIdentifier("android:id/month", null, null);
+                    final String[] monthNumbers = new String[]{ "01","02","03","04","05","06","07","08","09","10","11","12"};
+
+                    @Override
+                    public void onDateChanged(@NonNull DatePicker view, int y, int m, int d) {
+                        super.onDateChanged(view, y, m, d);
+                        // Since DatePickerCalendarDelegate updates the month spinner too, we need to change months as numbers here also
+                        if(month != 0){
+                            NumberPicker monthPicker = findViewById(month);
+                            if(monthPicker != null){
+                                monthPicker.setDisplayedValues(monthNumbers);
+                            }
+                        }
+                    }
+
+                    @Override
+                    protected void onCreate(Bundle savedInstanceState)
+                    {
+                        super.onCreate(savedInstanceState);
+                        // Hide day spinner
+                        int day = getContext().getResources().getIdentifier("android:id/day", null, null);
+                        if(day != 0){
+                            NumberPicker dayPicker = findViewById(day);
+                            if(dayPicker != null){
+                                dayPicker.setVisibility(View.GONE);
+                            }
+                        }
+                        // Show months as Numbers
+                        if(month != 0){
+                            NumberPicker monthPicker = findViewById(month);
+                            if(monthPicker != null){
+                                monthPicker.setDisplayedValues(monthNumbers);
+                            }
+                        }
+                    }
+                };
+                mDatePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                mDatePicker.setTitle("Select Date");
+                mDatePicker.show();
 
                 updateData("Click on date picker","'Flow: "+flowCheck()+"'");
 
             }
         });
+
+
+
 
         mDisplayDate2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -563,117 +690,198 @@ public class MainActivity extends AppCompatActivity {
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(
-                        MainActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        mDateSetListener2,
-                        year, month, day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.getDatePicker().findViewById(getResources().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
-                dialog.show();
-                updateData("Click on date picker","'Flow: "+flowCheck()+"'");
+                DatePickerDialog mDatePicker = new DatePickerDialog(MainActivity.this, android.R.style.Theme_Holo_Light_Dialog, new DatePickerDialog.OnDateSetListener() {
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        month = month + 1;
 
-            }
-        });
-
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-
-                String date = month + "/" + year;
-                mDisplayDate.setText(date);
-//                mTypeIDlabel.setVisibility(TextView.VISIBLE);
-//                mTypeID.setVisibility(EditText.VISIBLE);
-                if(!ccIFlag){
-                    mSelectId.setVisibility(TextView.VISIBLE);
-                    chooseID.setVisibility(Spinner.VISIBLE);
-                    chooseIDb.setVisibility(RelativeLayout.VISIBLE);
-
-                }
-
-                if(vcbATMFlag){
-                    if(year > cYear){
-                        mDisplayDate.setError("Năm Cấp Thẻ Không Thể hơn năm này");
-
-                        dateFlag = false;
-                    } else if(year==cYear && month>cMonth){
-                        mDisplayDate.setError("Tháng Cấp Thẻ Không Thể hơn tháng này");
-
-                        dateFlag = false;
-                    } else {
-                        mDisplayDate.setError(null);
-                        dateFlag = true;
-                    }
-
-                }else{
-                    if(year < cYear){
-                        mDisplayDate.setError("đã quá ngày hết hạn");
-
-                        dateFlag = false;
-                    } else if(year==cYear && month<cMonth){
-                        mDisplayDate.setError("đã quá ngày hết hạn");
-
-                        dateFlag = false;
-                    } else {
-                        mDisplayDate.setError(null);
-                        dateFlag = true;
-                    }
-
-                }
-                updateData("select date","'Date: "+date+"' 'Flow: "+flowCheck()+"'");
-                submitCheck();
-            }
-        };
-
-        mDateSetListener2 = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-
-                String date = month + "/" + year;
-                mDisplayDate2.setText(date);
+                        String date = month + "/" + year;
+                        mDisplayDate2.setText(date);
 //                mTypeIDlabelA.setVisibility(TextView.VISIBLE);
 //                mTypeIDA.setVisibility(EditText.VISIBLE);
 
 
-                mSelectIdA.setVisibility(TextView.VISIBLE);
-                chooseIDA.setVisibility(Spinner.VISIBLE);
-                chooseIDAb.setVisibility(RelativeLayout.VISIBLE);
-                if(vcbATMFlag){
-                    if(year > cYear){
-                        mDisplayDate2.setError("Năm Cấp Thẻ Không Thể hơn năm này");
-                        mDisplayDate2.requestFocus();
-                        dateFlag = false;
-                    } else if(year==cYear && month>cMonth){
-                        mDisplayDate2.setError("Tháng Cấp Thẻ Không Thể hơn tháng này");
-                        mDisplayDate2.requestFocus();
-                        dateFlag = false;
-                    } else {
-                        dateFlag = true;
-                        mDisplayDate2.setError(null);
+                        mSelectIdA.setVisibility(TextView.VISIBLE);
+                        chooseIDA.setVisibility(Spinner.VISIBLE);
+                        chooseIDAb.setVisibility(RelativeLayout.VISIBLE);
+                        if(vcbATMFlag){
+                            if(year > cYear){
+                                mDisplayDate2.setError("Năm Cấp Thẻ Không Thể hơn năm này");
+                                mDisplayDate2.requestFocus();
+                                dateFlag = false;
+                            } else if(year==cYear && month>cMonth){
+                                mDisplayDate2.setError("Tháng Cấp Thẻ Không Thể hơn tháng này");
+                                mDisplayDate2.requestFocus();
+                                dateFlag = false;
+                            } else {
+                                dateFlag = true;
+                                mDisplayDate2.setError(null);
+                            }
+
+                        }else{
+                            if(year < cYear){
+                                mDisplayDate2.setError("đã quá ngày hết hạn");
+                                mDisplayDate2.requestFocus();
+                                dateFlag = false;
+                            } else if(year==cYear && month<cMonth){
+                                mDisplayDate2.setError("đã quá ngày hết hạn");
+                                mDisplayDate2.requestFocus();
+                                dateFlag = false;
+                            } else {
+                                mDisplayDate2.setError(null);
+                                dateFlag = true;
+                            }
+
+                        }
+                        updateData("select date","'Date: "+date+"' 'Flow: "+flowCheck()+"'");
+                        submitCheck();
+
+                    }
+                }, year, month, day) {
+
+                    final int month = getContext().getResources().getIdentifier("android:id/month", null, null);
+                    final String[] monthNumbers = new String[]{ "01","02","03","04","05","06","07","08","09","10","11","12"};
+
+                    @Override
+                    public void onDateChanged(@NonNull DatePicker view, int y, int m, int d) {
+                        super.onDateChanged(view, y, m, d);
+                        // Since DatePickerCalendarDelegate updates the month spinner too, we need to change months as numbers here also
+                        if(month != 0){
+                            NumberPicker monthPicker = findViewById(month);
+                            if(monthPicker != null){
+                                monthPicker.setDisplayedValues(monthNumbers);
+                            }
+                        }
                     }
 
-                }else{
-                    if(year < cYear){
-                        mDisplayDate2.setError("đã quá ngày hết hạn");
-                        mDisplayDate2.requestFocus();
-                        dateFlag = false;
-                    } else if(year==cYear && month<cMonth){
-                        mDisplayDate2.setError("đã quá ngày hết hạn");
-                        mDisplayDate2.requestFocus();
-                        dateFlag = false;
-                    } else {
-                        mDisplayDate2.setError(null);
-                        dateFlag = true;
+                    @Override
+                    protected void onCreate(Bundle savedInstanceState)
+                    {
+                        super.onCreate(savedInstanceState);
+                        // Hide day spinner
+                        int day = getContext().getResources().getIdentifier("android:id/day", null, null);
+                        if(day != 0){
+                            NumberPicker dayPicker = findViewById(day);
+                            if(dayPicker != null){
+                                dayPicker.setVisibility(View.GONE);
+                            }
+                        }
+                        // Show months as Numbers
+                        if(month != 0){
+                            NumberPicker monthPicker = findViewById(month);
+                            if(monthPicker != null){
+                                monthPicker.setDisplayedValues(monthNumbers);
+                            }
+                        }
                     }
-
-                }
-                updateData("select date","'Date: "+date+"' 'Flow: "+flowCheck()+"'");
-                submitCheck();
+                };
+                mDatePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                mDatePicker.setTitle("Select Date");
+                updateData("Click on date picker","'Flow: "+flowCheck()+"'");
+                mDatePicker.show();
 
             }
-        };
+        });
+
+
+
+//        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+//            @Override
+//            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+//                month = month + 1;
+//
+//                String date = month + "/" + year;
+//                mDisplayDate.setText(date);
+////                mTypeIDlabel.setVisibility(TextView.VISIBLE);
+////                mTypeID.setVisibility(EditText.VISIBLE);
+//                if(!ccIFlag){
+//                    mSelectId.setVisibility(TextView.VISIBLE);
+//                    chooseID.setVisibility(Spinner.VISIBLE);
+//                    chooseIDb.setVisibility(RelativeLayout.VISIBLE);
+//
+//                }
+//
+//                if(vcbATMFlag){
+//                    if(year > cYear){
+//                        mDisplayDate.setError("Năm Cấp Thẻ Không Thể hơn năm này");
+//
+//                        dateFlag = false;
+//                    } else if(year==cYear && month>cMonth){
+//                        mDisplayDate.setError("Tháng Cấp Thẻ Không Thể hơn tháng này");
+//
+//                        dateFlag = false;
+//                    } else {
+//                        mDisplayDate.setError(null);
+//                        dateFlag = true;
+//                    }
+//
+//                }else{
+//                    if(year < cYear){
+//                        mDisplayDate.setError("đã quá ngày hết hạn");
+//
+//                        dateFlag = false;
+//                    } else if(year==cYear && month<cMonth){
+//                        mDisplayDate.setError("đã quá ngày hết hạn");
+//
+//                        dateFlag = false;
+//                    } else {
+//                        mDisplayDate.setError(null);
+//                        dateFlag = true;
+//                    }
+//
+//                }
+//                updateData("select date","'Date: "+date+"' 'Flow: "+flowCheck()+"'");
+//                submitCheck();
+//            }
+//        };
+
+//        mDateSetListener2 = new DatePickerDialog.OnDateSetListener() {
+//            @Override
+//            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+//                month = month + 1;
+//
+//                String date = month + "/" + year;
+//                mDisplayDate2.setText(date);
+////                mTypeIDlabelA.setVisibility(TextView.VISIBLE);
+////                mTypeIDA.setVisibility(EditText.VISIBLE);
+//
+//
+//                mSelectIdA.setVisibility(TextView.VISIBLE);
+//                chooseIDA.setVisibility(Spinner.VISIBLE);
+//                chooseIDAb.setVisibility(RelativeLayout.VISIBLE);
+//                if(vcbATMFlag){
+//                    if(year > cYear){
+//                        mDisplayDate2.setError("Năm Cấp Thẻ Không Thể hơn năm này");
+//                        mDisplayDate2.requestFocus();
+//                        dateFlag = false;
+//                    } else if(year==cYear && month>cMonth){
+//                        mDisplayDate2.setError("Tháng Cấp Thẻ Không Thể hơn tháng này");
+//                        mDisplayDate2.requestFocus();
+//                        dateFlag = false;
+//                    } else {
+//                        dateFlag = true;
+//                        mDisplayDate2.setError(null);
+//                    }
+//
+//                }else{
+//                    if(year < cYear){
+//                        mDisplayDate2.setError("đã quá ngày hết hạn");
+//                        mDisplayDate2.requestFocus();
+//                        dateFlag = false;
+//                    } else if(year==cYear && month<cMonth){
+//                        mDisplayDate2.setError("đã quá ngày hết hạn");
+//                        mDisplayDate2.requestFocus();
+//                        dateFlag = false;
+//                    } else {
+//                        mDisplayDate2.setError(null);
+//                        dateFlag = true;
+//                    }
+//
+//                }
+//                updateData("select date","'Date: "+date+"' 'Flow: "+flowCheck()+"'");
+//                submitCheck();
+//
+//            }
+//        };
 
 
 
