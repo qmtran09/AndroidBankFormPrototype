@@ -14,14 +14,14 @@
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="456dp"
         android:layout_marginEnd="100dp"
         android:layout_marginRight="100dp"
         android:adjustViewBounds="true"
         android:background="@null"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.959"
         app:layout_constraintStart_toEndOf="@+id/bvb"
         app:layout_constraintTop_toBottomOf="@+id/cardNum"
         app:srcCompat="@android:drawable/ic_menu_add" />
@@ -30,9 +30,9 @@
         android:id="@+id/bvb"
         android:layout_width="92dp"
         android:layout_height="78dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="436dp"
         android:adjustViewBounds="true"
         android:background="@drawable/button_background"
         android:scaleType="fitCenter"
@@ -44,130 +44,109 @@
         android:id="@+id/cardNumLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:text="Điền Số Thẻ/Tài Khoản:"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/cardNum"
         android:layout_width="271dp"
         android:layout_height="59dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginRight="100dp"
 
         android:ems="10"
         android:hint=""
         android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/cardNumLabel" />
 
     <TextView
         android:id="@+id/cardHolderLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="12dp"
         android:text="Điền Tên Chủ Thẻ:"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardNum" />
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <EditText
         android:id="@+id/cardHolder"
         android:layout_width="271dp"
         android:layout_height="47dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
         android:ems="10"
 
         android:hint="Tên"
         android:inputType="textPersonName"
         android:textAllCaps="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/cardHolderLabel" />
 
     <TextView
         android:id="@+id/expiryLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="50dp"
-        android:text="Chọn Ngày Hết Hạn:"
 
+        android:layout_marginTop="12dp"
+        android:text="Chọn Ngày Hết Hạn:"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardHolder" />
+        app:layout_constraintStart_toStartOf="@+id/selectIDlabelA"
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <TextView
         android:id="@+id/expiryLabel2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="12dp"
         android:text="Chọn Ngày Hết Hạn:"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardNum" />
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <TextView
         android:id="@+id/expiryDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
         android:layout_marginTop="8dp"
+        android:background="?attr/editTextBackground"
         android:ems="10"
         android:hint="MM/YYYY"
         android:inputType="textPersonName"
-        android:background="?attr/editTextBackground"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/expiryLabel" />
 
     <TextView
         android:id="@+id/expiryDate2"
         android:layout_width="120dp"
         android:layout_height="48dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
         android:layout_marginTop="8dp"
         android:background="?attr/editTextBackground"
         android:ems="10"
+
         android:hint="MM/YYYY"
         android:inputType="textPersonName"
-
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/cardHolder"
         app:layout_constraintTop_toBottomOf="@+id/expiryLabel2" />
 
     <TextView
         android:id="@+id/cvvlabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="8dp"
         android:text="CVV:"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintHorizontal_bias="0.246"
         app:layout_constraintStart_toEndOf="@+id/expiryLabel"
-        app:layout_constraintTop_toBottomOf="@+id/cardHolder" />
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <EditText
         android:id="@+id/cvv"
@@ -176,14 +155,12 @@
         android:layout_marginStart="33dp"
         android:layout_marginLeft="33dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginRight="100dp"
         android:ems="10"
         android:hint="***"
 
         android:inputType="number"
         android:maxLength="3"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/expiryDate"
         app:layout_constraintTop_toBottomOf="@+id/cvvlabel" />
@@ -192,12 +169,10 @@
         android:id="@+id/chooseIDb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="8dp"
         android:background="#FFFFFF"
         android:padding="8dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/selectIDlabel">
 
         <Spinner
@@ -207,17 +182,17 @@
 
     </RelativeLayout>
 
+
     <RelativeLayout
         android:id="@+id/chooseIDAb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="8dp"
         android:background="#FFFFFF"
         android:padding="8dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/expiryDate"
         app:layout_constraintTop_toBottomOf="@+id/selectIDlabelA">
+
         <Spinner
 
             android:id="@+id/chooseIDA"
@@ -225,91 +200,77 @@
             android:layout_height="wrap_content"></Spinner>
 
 
-
     </RelativeLayout>
-
 
     <TextView
         android:id="@+id/selectIDlabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
+
         android:layout_marginTop="30dp"
         android:text="Chọn ID:"
-
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/expiryDate" />
 
     <TextView
         android:id="@+id/selectIDlabelA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="12dp"
         android:text="Chọn ID:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardHolder" />
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <TextView
         android:id="@+id/typeIDlabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="8dp"
         android:text="Điền số ID:"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/chooseIDb" />
 
     <TextView
         android:id="@+id/typeIDlabelA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
+
         android:layout_marginTop="8dp"
         android:text="Điền số ID:"
-
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/chooseIDAb" />
 
     <EditText
         android:id="@+id/TypeID"
         android:layout_width="235dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="8dp"
-        android:ems="10"
 
+        android:ems="10"
         android:hint="@string/idHint"
         android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/typeIDlabel" />
 
     <EditText
         android:id="@+id/AtypeID"
         android:layout_width="235dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="8dp"
-        android:hint="@string/idHint"
         android:ems="10"
+        android:hint="@string/idHint"
 
         android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/typeIDlabelA" />
 
     <ImageButton
         android:id="@+id/vcb"
         android:layout_width="92dp"
         android:layout_height="78dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginLeft="148dp"
+        android:layout_marginTop="436dp"
         android:adjustViewBounds="true"
         android:background="@drawable/button_background"
         android:scaleType="fitCenter"
@@ -321,9 +282,9 @@
         android:id="@+id/vtb"
         android:layout_width="92dp"
         android:layout_height="78dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="172dp"
+        android:layout_marginLeft="172dp"
+        android:layout_marginTop="540dp"
         android:adjustViewBounds="true"
         android:background="@drawable/button_background"
         android:scaleType="fitCenter"
@@ -335,9 +296,9 @@
         android:id="@+id/msb"
         android:layout_width="92dp"
         android:layout_height="78dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginLeft="164dp"
+        android:layout_marginTop="368dp"
         android:adjustViewBounds="true"
         android:background="@drawable/button_background"
         android:scaleType="fitCenter"
@@ -349,44 +310,44 @@
         android:id="@+id/vcb2"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="260dp"
+        android:layout_marginStart="270dp"
         android:layout_marginLeft="260dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cardNum"
         app:layout_constraintStart_toStartOf="@+id/cardNum"
-        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_vietcombank_2" />
 
     <ImageView
         android:id="@+id/bvb2"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="260dp"
+        android:layout_marginStart="270dp"
         android:layout_marginLeft="260dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cardNum"
         app:layout_constraintStart_toStartOf="@+id/cardNum"
-        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_banviet_2" />
 
     <ImageView
         android:id="@+id/visa"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="260dp"
+        android:layout_marginStart="270dp"
         android:layout_marginLeft="260dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cardNum"
         app:layout_constraintStart_toStartOf="@+id/cardNum"
-        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_visa_2" />
 
     <ImageView
         android:id="@+id/msb2"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="260dp"
+        android:layout_marginStart="270dp"
         android:layout_marginLeft="260dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cardNum"
         app:layout_constraintStart_toStartOf="@+id/cardNum"
-        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_msb_2" />
 
 
@@ -394,24 +355,58 @@
         android:id="@+id/vtb2"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="260dp"
+        android:layout_marginStart="270dp"
         android:layout_marginLeft="260dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cardNum"
         app:layout_constraintStart_toStartOf="@+id/cardNum"
-        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_vietinbank_2" />
 
     <Button
         android:id="@+id/submit"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="450dp"
         android:text="Liên Kết Ngay"
         app:backgroundTint="#0087F3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardNum" />
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.28" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.956" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
