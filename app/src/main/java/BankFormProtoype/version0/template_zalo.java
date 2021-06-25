@@ -23,18 +23,24 @@ public class template_zalo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_template_zalo);
+        Intent intent = getIntent();
+
+        // receive the value by getStringExtra() method
+        // and key must be same which is send by first activity
+        String str = intent.getStringExtra("flow2");
 
         map = (Button) findViewById(R.id.map);
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openMap();
+                openMap(str);
             }
         });
     }
-    public void openMap() {
+    public void openMap(String str) {
         Intent intent = new Intent(this,MainActivity.class);
+        intent.putExtra("flow3",str);
         startActivity(intent);
-        System.out.println("OIEWFHJWEOIHFOIWEHFOEWHFOIWEFH");
+
     }
 }

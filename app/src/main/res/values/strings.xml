@@ -6,5 +6,11 @@
         <item>CCCD</item>
         <item>Hộ Chiếu</item>
     </string-array>
+    <string-array name="flowChoice">
+        <item></item>
+        <item>Thẻ ATM VCB</item>
+        <item>Thẻ VISA VCB</item>
+        <item>Tài Khoản VCB</item>
+    </string-array>
     <string name="idHint"><font size="12">(Cần khớp với thông tin tại ngân hàng)</font></string>
 </resources>

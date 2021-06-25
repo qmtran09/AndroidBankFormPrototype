@@ -14,14 +14,14 @@
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="456dp"
+        android:layout_marginTop="452dp"
         android:layout_marginEnd="100dp"
         android:layout_marginRight="100dp"
         android:adjustViewBounds="true"
         android:background="@null"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.959"
+        app:layout_constraintHorizontal_bias="0.17"
         app:layout_constraintStart_toEndOf="@+id/bvb"
         app:layout_constraintTop_toBottomOf="@+id/cardNum"
         app:srcCompat="@android:drawable/ic_menu_add" />
@@ -30,9 +30,9 @@
         android:id="@+id/bvb"
         android:layout_width="92dp"
         android:layout_height="78dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="436dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"
         android:adjustViewBounds="true"
         android:background="@drawable/button_background"
         android:scaleType="fitCenter"
@@ -268,9 +268,9 @@
         android:id="@+id/vcb"
         android:layout_width="92dp"
         android:layout_height="78dp"
-        android:layout_marginStart="148dp"
-        android:layout_marginLeft="148dp"
-        android:layout_marginTop="436dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginLeft="96dp"
+        android:layout_marginTop="40dp"
         android:adjustViewBounds="true"
         android:background="@drawable/button_background"
         android:scaleType="fitCenter"
@@ -407,6 +407,22 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.05" />
+
+    <Button
+        android:id="@+id/showInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+
+        android:background="#FFFFFF"
+        android:text="Xem Thông Tin Thẻ/TK"
+
+        android:textColor="#F8F8F8"
+        android:textSize="6sp"
+        app:backgroundTint="#0087F3"
+        app:iconTint="#0087F3"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

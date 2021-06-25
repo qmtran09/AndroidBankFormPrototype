@@ -16,17 +16,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BankFormPrototype">
-        <activity android:name=".template_zalo" android:screenOrientation="portrait" >
+        <activity android:name=".demoInfo"></activity>
+        <activity
+            android:name=".guide"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".success" android:screenOrientation="portrait" />
-        <activity android:name=".MainActivity" android:screenOrientation="portrait" >
-
-        </activity>
+        <activity
+            android:name=".template_zalo"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".success"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

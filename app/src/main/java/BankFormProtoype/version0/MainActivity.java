@@ -3,6 +3,7 @@ package BankFormProtoype.version0;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -12,8 +13,10 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 //import android.support.v7.app.AppCompatActivity;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -22,6 +25,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -84,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView msb2;
     private ImageView vtb2;
     private ImageView bvbI2;
+
     private RelativeLayout chooseIDb;
     private RelativeLayout chooseIDAb;
     private boolean accountFlag;
@@ -96,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener mDateSetListener2;
     private ImageButton more;
     private boolean moreFlag;
+    private Button showMore;
 
     private int cMonth;
     private int cYear;
@@ -116,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0087F3")));
+        bar.setTitle("Liên Kết Ngân Hàng");
         db = FirebaseDatabase.getInstance("https://bank-form-prototype-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
 
         counter = 0;
@@ -150,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
         bvbI = (ImageButton) findViewById(R.id.bvb);
         submit = (Button) findViewById(R.id.submit);
 
+
         vcbI2 = (ImageView) findViewById(R.id.vcb2);
         bvbI2 = (ImageView) findViewById(R.id.bvb2);
         visaI = (ImageView) findViewById(R.id.visa);
@@ -158,6 +166,11 @@ public class MainActivity extends AppCompatActivity {
         vtb2 = (ImageView) findViewById(R.id.vtb2);
         msb2 = (ImageView) findViewById(R.id.msb2);
         more = (ImageButton) findViewById(R.id.more);
+        showMore = (Button) findViewById(R.id.showInfo);
+
+//        visademo = (ImageView) findViewById(R.id.visa);
+//        atmdemo = (ImageView) findViewById(R.id.atmD);
+//        acctdemo = (TextView) findViewById(R.id.acct);
 
         chooseIDAb = (RelativeLayout) findViewById(R.id.chooseIDAb);
         chooseIDb = (RelativeLayout) findViewById(R.id.chooseIDb);
@@ -190,6 +203,8 @@ public class MainActivity extends AppCompatActivity {
         vtb2.setVisibility(ImageView.INVISIBLE);
         chooseIDAb.setVisibility(RelativeLayout.INVISIBLE);
         chooseIDb.setVisibility(RelativeLayout.INVISIBLE);
+
+
         //make name all caps only accept alphabet
         mName.setFilters(new InputFilter[]{getEditTextFilter(),new InputFilter.AllCaps()});
         mTypeID.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
@@ -199,6 +214,57 @@ public class MainActivity extends AppCompatActivity {
         LocalDate currentdate = LocalDate.now();
         cMonth = currentdate.getMonthValue();
         cYear = currentdate.getYear();
+
+        Intent intent = getIntent();
+
+        // receive the value by getStringExtra() method
+        // and key must be same which is send by first activity
+        String str = intent.getStringExtra("flow3");
+
+
+
+
+
+        showMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = getLayoutInflater();
+                View dialoglayout = inflater.inflate(R.layout.demo_card, null,false);
+                if(str.equals("ATM")){
+                    dialoglayout.findViewById(R.id.atmD).setVisibility(View.VISIBLE);
+                    dialoglayout.findViewById(R.id.visa).setVisibility(View.INVISIBLE);
+                    dialoglayout.findViewById(R.id.acct).setVisibility(View.INVISIBLE);
+
+                }else if(str.equals("VISA")){
+                    dialoglayout.findViewById(R.id.atmD).setVisibility(View.INVISIBLE);
+                    dialoglayout.findViewById(R.id.visa).setVisibility(View.VISIBLE);
+                    dialoglayout.findViewById(R.id.acct).setVisibility(View.INVISIBLE);
+
+                }else if(str.equals("TK")){
+                    dialoglayout.findViewById(R.id.atmD).setVisibility(View.INVISIBLE);
+                    dialoglayout.findViewById(R.id.visa).setVisibility(View.INVISIBLE);
+                    dialoglayout.findViewById(R.id.acct).setVisibility(View.VISIBLE);
+
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setCancelable(true);
+                builder.setTitle("Thông tin: ");
+                builder.setView(dialoglayout);
+
+
+
+
+                builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+
+            }
+        });
+
 
         //initialize data tracking
 //        List<String> event = new ArrayList<String>();
